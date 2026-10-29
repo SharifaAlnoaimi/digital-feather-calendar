@@ -36,11 +36,61 @@
             background-color: #071322;
             color: #f8fafc;
         }
-        /* Elegant Modern Deep Blue Gradient Header */
+        /* Enhanced Interactive Canvas & Animated Pixel Header */
         .pixel-bg {
-            background: linear-gradient(135deg, #0a2540 0%, #0d3863 50%, #081a30 100%);
-            border-bottom: 2px solid rgba(242, 101, 34, 0.3);
+            background: linear-gradient(135deg, #05101e 0%, #0a2948 50%, #061527 100%);
+            border-bottom: 2px solid rgba(242, 101, 34, 0.4);
             position: relative;
+            overflow: hidden;
+        }
+        .pixel-grid {
+            position: absolute;
+            inset: 0;
+            background-size: 28px 28px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            z-index: 1;
+            pointer-events: none;
+        }
+        /* Interactive Pixel Canvas */
+        #interactive-pixel-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+        /* Rich CSS Digital Pixel Particles */
+        .digital-pixel {
+            position: absolute;
+            border-radius: 2px;
+            animation: floatPixel infinite ease-in-out;
+            z-index: 2;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .digital-pixel:nth-child(1) { width: 12px; height: 12px; left: 10%; top: 25%; animation-duration: 5.5s; animation-delay: 0s; background-color: #f26522; box-shadow: 0 0 12px #f26522; }
+        .digital-pixel:nth-child(2) { width: 8px; height: 8px; left: 25%; top: 70%; animation-duration: 7s; animation-delay: 1s; background-color: #14b8a6; box-shadow: 0 0 10px #14b8a6; }
+        .digital-pixel:nth-child(3) { width: 12px; height: 12px; left: 45%; top: 30%; animation-duration: 6s; animation-delay: 2s; background-color: #38bdf8; box-shadow: 0 0 14px #38bdf8; }
+        .digital-pixel:nth-child(4) { width: 10px; height: 10px; left: 68%; top: 75%; animation-duration: 8s; animation-delay: 0.5s; background-color: #f26522; box-shadow: 0 0 12px #f26522; }
+        .digital-pixel:nth-child(5) { width: 14px; height: 14px; left: 85%; top: 25%; animation-duration: 6.5s; animation-delay: 1.5s; background-color: #14b8a6; box-shadow: 0 0 16px #14b8a6; }
+        .digital-pixel:nth-child(6) { width: 8px; height: 8px; left: 92%; top: 65%; animation-duration: 7.5s; animation-delay: 2.5s; background-color: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+
+        @keyframes floatPixel {
+            0% {
+                transform: translateY(25px) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(-30px) rotate(90deg) scale(1.2);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-75px) rotate(180deg) scale(0.5);
+                opacity: 0;
+            }
         }
         .glass-panel {
             background: rgba(15, 30, 54, 0.75);
@@ -76,44 +126,146 @@
         @media print {
             body {
                 background-color: #ffffff !important;
-                color: #000000 !important;
             }
-            .no-print {
-                display: none !important;
+        }
+
+        /* Ticker Animation Fixes */
+        @keyframes marquee-rtl {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(50%); }
+        }
+        @keyframes marquee-ltr {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: inline-flex !important;
+            white-space: nowrap !important;
+            animation: marquee-rtl 40s linear infinite !important;
+            width: max-content;
+        }
+        [dir="ltr"] .animate-marquee {
+            animation: marquee-ltr 40s linear infinite !important;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused !important;
+        }
+
+        /* Animated Drawing Feather Animation */
+        @keyframes featherDraw {
+            0%, 100% {
+                transform: rotate(-15deg) translateY(0px) scale(1);
+                filter: drop-shadow(0 0 6px #f26522);
             }
-            .glass-panel, .glass-card {
-                background: #ffffff !important;
-                border: 1px solid #ccc !important;
-                color: #000000 !important;
-                box-shadow: none !important;
+            50% {
+                transform: rotate(15deg) translateY(-3px) scale(1.15);
+                filter: drop-shadow(0 0 12px #38bdf8);
             }
+        }
+        .drawing-feather {
+            display: inline-block;
+            animation: featherDraw 1.8s infinite ease-in-out;
+            color: #f26522;
         }
     </style>
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between selection:bg-orange-500 selection:text-white">
 
-    <!-- Hero Header with Elegant Modern Deep Blue Gradient Background -->
-    <header class="relative overflow-hidden pt-12 pb-14 pixel-bg shadow-2xl">
+    <!-- TOP OFFICIAL HEADER BAR -->
+    <div class="w-full no-print">
+        <!-- Dark Top Bar (Language Toggle) -->
+        <div class="bg-[#11162B] text-white py-2 px-6 sm:px-12 flex justify-between items-center text-xs font-semibold border-b border-slate-800">
+            <div class="flex items-center gap-3">
+                <button onclick="setLanguage('en')" id="lang-en" class="text-slate-400 hover:text-white transition cursor-pointer">English</button>
+                <span class="text-slate-600">|</span>
+                <button onclick="setLanguage('ar')" id="lang-ar" class="text-white font-bold cursor-pointer">عربي</button>
+            </div>
+        </div>
+
+        <!-- White Header Bar with Official Logos -->
+        <div class="bg-white px-4 sm:px-8 flex flex-col justify-between shadow-md overflow-hidden">
+            <div class="py-0.5 flex justify-between items-center">
+                <!-- RCICT & UNESCO Official Logo Direct Image -->
+                <div class="flex items-center gap-2">
+                    <img src="https://th.bing.com/th/id/OIP.pJafz0D3otK5-c1G1TRiEgHaHa" alt="UNESCO & RCICT Logo" class="h-20 sm:h-28 md:h-32 w-auto object-contain">
+                </div>
+
+                <!-- Ministry Official Crest & Text Logo Direct Image -->
+                <div class="flex items-center gap-2">
+                    <img src="https://ncst.edu.bh/wp-content/uploads/2019/05/MoE-Logo.jpg" 
+                         onerror="this.onerror=null; this.src='https://assets.website-files.com/63a327f073bbfd2a02168bac/63a327f073bbfd2a02168bac_Logo%20-%20Primary_Ministry%20of%20Education-p-1080.png';" 
+                         alt="Ministry of Education Bahrain Logo" 
+                         class="h-24 sm:h-32 md:h-36 w-auto object-contain">
+                </div>
+            <!-- Ticker / Moving News Bar at the bottom of the white area (Slightly Reduced Height) -->
+            <div class="w-full bg-slate-900 text-slate-100 rounded-md mb-0.5 py-1 px-2 flex items-center overflow-hidden border border-slate-700/50 shadow-inner">
+                <div class="bg-orange-500 text-white text-[10px] font-black px-2.5 py-1 rounded flex items-center gap-1 shrink-0 z-20 shadow">
+                    <i class="fa-solid fa-bullhorn text-[11px] animate-bounce"></i>
+                    <span id="ticker-badge">آخر الأخبار</span>
+                </div>
+                <div class="overflow-hidden whitespace-nowrap w-full relative mr-2 ltr:ml-2 flex items-center">
+                    <div class="animate-marquee font-bold text-xs text-amber-300 items-center">
+                        <span id="ticker-text" class="px-6 shrink-0 inline-flex items-center gap-2">
+                            <i class="fa-solid fa-feather-pointed drawing-feather text-sm"></i>
+                            مسابقة الرسم الرقمي الإبداعي "ريشة رقمية" لطلبة المدارس الحكومية بمملكة البحرين 
+                            <span class="mx-5 text-orange-400 font-extrabold">•</span> 
+                            تم إطلاق مسابقة ريشة رقمية في الأسبوع الرابع من أكتوبر 2026 لجميع طلبة المدارس الحكومية 
+                            <span class="mx-5 text-orange-400 font-extrabold">•</span> 
+                            يتم استقبال الترشيحات الأولية حتى الأسبوع الثالث من ديسمبر 2026
+                        </span>
+                        <span class="text-slate-500 mx-6 shrink-0">✦</span>
+                        <span id="ticker-text-dup" class="px-6 shrink-0 inline-flex items-center gap-2">
+                            <i class="fa-solid fa-feather-pointed drawing-feather text-sm"></i>
+                            مسابقة الرسم الرقمي الإبداعي "ريشة رقمية" لطلبة المدارس الحكومية بمملكة البحرين 
+                            <span class="mx-5 text-orange-400 font-extrabold">•</span> 
+                            تم إطلاق مسابقة ريشة رقمية في الأسبوع الرابع من أكتوبر 2026 لجميع طلبة المدارس الحكومية 
+                            <span class="mx-5 text-orange-400 font-extrabold">•</span> 
+                            يتم استقبال الترشيحات الأولية حتى الأسبوع الثالث من ديسمبر 2026
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Header with Enhanced Interactive Digital Pixels Background -->
+    <header id="hero-header" class="relative overflow-hidden pt-12 pb-14 pixel-bg shadow-2xl">
+        <!-- Digital Grid -->
+        <div class="pixel-grid"></div>
+
+        <!-- Interactive Dynamic Canvas for Mouse Effects -->
+        <canvas id="interactive-pixel-canvas"></canvas>
+
+        <!-- Balanced Layer of Dynamic CSS Pixels -->
+        <div class="digital-pixel"></div>
+        <div class="digital-pixel"></div>
+        <div class="digital-pixel"></div>
+        <div class="digital-pixel"></div>
+        <div class="digital-pixel"></div>
+        <div class="digital-pixel"></div>
+
         <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
             <!-- Main Text Details (Centered) -->
             <div class="text-center space-y-4 max-w-4xl mx-auto">
                 <!-- Main Badge -->
                 <div>
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/15 border border-orange-500/30 text-orange-400 text-xs sm:text-sm font-bold mb-1 backdrop-blur-md">
+                    <div id="badge-title" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/15 border border-orange-500/30 text-orange-400 text-xs sm:text-sm font-bold mb-1 backdrop-blur-md">
                         <i class="fa-solid fa-calendar-days"></i> التقويم الزمني والدليل التنفيذي
                     </div>
                 </div>
 
-                <!-- Main Title -->
-                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-tight">
-                    مسابقة <span class="text-white">ريشة رقمية</span>
-                </h1>
+                <!-- Main Title without Feather logo -->
+                <div class="flex items-center justify-center gap-4 sm:gap-6 flex-wrap">
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-tight">
+                        <span id="title-main-prefix">مسابقة</span> <span id="title-main-highlight" class="text-white">ريشة رقمية</span>
+                    </h1>
+                </div>
 
-                <p class="text-lg sm:text-2xl text-teal-300 font-bold tracking-wide">
+                <p id="slogan-title" class="text-lg sm:text-2xl text-teal-300 font-bold tracking-wide">
                     "بريشتك الرقمية لمستقبل مستدام"
                 </p>
 
-                <p class="text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed opacity-90">
+                <p id="hero-desc" class="text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed opacity-90">
                     الخطة الزمنية الشاملة والمهام المعتمدة للمسابقة، مقسمة بحسب المراحل الرئيسية ومسؤوليات الجهات المشاركة.
                 </p>
             </div>
@@ -132,7 +284,7 @@
                     <div class="glass-panel p-5 rounded-2xl border border-teal-500/30 bg-teal-950/20 space-y-3">
                         <div class="flex justify-between items-center text-xs font-bold text-slate-200">
                             <span class="flex items-center gap-1.5">
-                                <i class="fa-solid fa-chart-line text-teal-400"></i> نسبة الإنجاز التنفيذي
+                                <i class="fa-solid fa-chart-line text-teal-400"></i> <span id="progress-title-txt">نسبة الإنجاز التنفيذي</span>
                             </span>
                             <span id="progressText" class="text-teal-400 font-black">0%</span>
                         </div>
@@ -147,49 +299,54 @@
                     <!-- Interactive Quick Action Buttons -->
                     <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-3">
                         <h3 class="text-sm font-bold text-white mb-2 flex items-center gap-2">
-                            <i class="fa-solid fa-bolt text-amber-400"></i> أدوات سريعة
+                            <i class="fa-solid fa-bolt text-amber-400"></i> <span id="quick-tools-txt">أدوات سريعة</span>
                         </h3>
                         
                         <!-- Print / Export PDF -->
-                        <button onclick="window.print()" class="w-full py-2.5 px-4 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition shadow-lg shadow-orange-600/20">
+                        <button onclick="window.print()" id="btn-print" class="w-full py-2.5 px-4 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition shadow-lg shadow-orange-600/20">
                             <i class="fa-solid fa-file-pdf"></i> طباعة / حفظ PDF
                         </button>
 
                         <!-- Add to Google Calendar -->
-                        <button onclick="addToCalendar()" class="w-full py-2.5 px-4 rounded-xl bg-teal-700 hover:bg-teal-600 text-white font-bold text-xs flex items-center justify-center gap-2 transition">
+                        <button onclick="addToCalendar()" id="btn-calendar" class="w-full py-2.5 px-4 rounded-xl bg-teal-700 hover:bg-teal-600 text-white font-bold text-xs flex items-center justify-center gap-2 transition">
                             <i class="fa-solid fa-calendar-plus"></i> إضافة لتقويم Google
                         </button>
 
                         <!-- Export to Excel/CSV -->
-                        <button onclick="exportToCSV()" class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs flex items-center justify-center gap-2 border border-slate-700 transition">
+                        <button onclick="exportToCSV()" id="btn-export" class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs flex items-center justify-center gap-2 border border-slate-700 transition">
                             <i class="fa-solid fa-file-excel text-emerald-400"></i> تصدير البيانات (Excel/CSV)
                         </button>
 
                         <!-- Font Resizing Controls -->
                         <div class="pt-2 border-t border-slate-800/80">
-                            <span class="text-[11px] font-semibold text-slate-400 block mb-1.5">حجم الخط:</span>
+                            <span id="font-size-label" class="text-[11px] font-semibold text-slate-400 block mb-1.5">حجم الخط:</span>
                             <div class="grid grid-cols-2 gap-2">
-                                <button onclick="changeFontSize(1)" class="py-1.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-center gap-1">
+                                <button onclick="changeFontSize(1)" id="btn-zoom-in" class="py-1.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-center gap-1">
                                     <i class="fa-solid fa-plus text-[10px]"></i> تكبير
                                 </button>
-                                <button onclick="changeFontSize(-1)" class="py-1.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-center gap-1">
+                                <button onclick="changeFontSize(-1)" id="btn-zoom-out" class="py-1.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-center gap-1">
                                     <i class="fa-solid fa-minus text-[10px]"></i> تصغير
                                 </button>
                             </div>
                         </div>
 
                         <!-- Share Button -->
-                        <button onclick="shareCalendar()" class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs flex items-center justify-center gap-2 border border-slate-700 transition">
+                        <button onclick="shareCalendar()" id="btn-share" class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs flex items-center justify-center gap-2 border border-slate-700 transition">
                             <i class="fa-solid fa-share-nodes text-orange-400"></i> مشاركة التقويم
                         </button>
+                    </div>
+
+                    <!-- Notification Toast -->
+                    <div id="toast-message" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-teal-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-2xl z-50 transition-all duration-300">
+                        <span id="toast-text">تمت العملية بنجاح!</span>
                     </div>
 
                     <!-- Contact & Support Info -->
                     <div class="glass-panel p-5 rounded-2xl border border-slate-800 text-xs text-slate-400 space-y-2.5">
                         <div class="font-bold text-slate-200 mb-2 flex items-center gap-1.5 text-sm">
-                            <i class="fa-solid fa-headset text-orange-400"></i> الدعم والتنسيق:
+                            <i class="fa-solid fa-headset text-orange-400"></i> <span id="support-title-txt">الدعم والتنسيق:</span>
                         </div>
-                        <p class="font-semibold text-slate-300">المركز الإقليمي لتكنولوجيا المعلومات والاتصال</p>
+                        <p id="support-rcict-name" class="font-semibold text-slate-300">المركز الإقليمي لتكنولوجيا المعلومات والاتصال</p>
                         <p class="flex items-center gap-2">
                             <i class="fa-solid fa-envelope text-slate-500 w-4"></i> 
                             <a href="mailto:rcict@moe.gov.bh" class="hover:text-orange-400 transition">rcict@moe.gov.bh</a>
@@ -203,8 +360,20 @@
                             <a href="https://www.regcict.com/" target="_blank" rel="noopener noreferrer" class="hover:text-orange-400 transition underline">www.regcict.com</a>
                         </p>
                         <p class="flex items-center gap-2">
-                            <i class="fa-brands fa-instagram text-slate-500 w-4"></i> 
-                            <a href="https://www.instagram.com/rcictbahrain" target="_blank" rel="noopener noreferrer" class="hover:text-orange-400 transition">@rcictbahrain</a>
+                            <i class="fa-brands fa-instagram text-pink-500 w-4"></i> 
+                            <a href="https://www.instagram.com/rcictbahrain" target="_blank" rel="noopener noreferrer" class="hover:text-orange-400 transition">Instagram</a>
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <i class="fa-brands fa-youtube text-red-500 w-4"></i> 
+                            <a href="https://www.youtube.com/channel/UCZdn_MjjjkPdB3Zlc-3Kj9Q" target="_blank" rel="noopener noreferrer" class="hover:text-orange-400 transition">YouTube</a>
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <i class="fa-brands fa-linkedin text-sky-500 w-4"></i> 
+                            <a href="https://www.linkedin.com/in/rcict-bahrain-773930184/" target="_blank" rel="noopener noreferrer" class="hover:text-orange-400 transition">LinkedIn</a>
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <i class="fa-brands fa-facebook text-blue-500 w-4"></i> 
+                            <a href="https://www.facebook.com/RCICTbahrain" target="_blank" rel="noopener noreferrer" class="hover:text-orange-400 transition">Facebook</a>
                         </p>
                     </div>
 
@@ -235,16 +404,16 @@
                 <!-- Filter and Search Bar -->
                 <div class="glass-panel p-4 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4 no-print">
                     <div class="relative w-full md:w-72">
-                        <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="ابحث عن مرحلة أو مهمة..." class="w-full bg-slate-900 border border-slate-800 rounded-xl pr-11 pl-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-orange-500">
+                        <i class="fa-solid fa-magnifying-glass absolute rtl:right-4 ltr:left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="ابحث عن مرحلة أو مهمة..." class="w-full bg-slate-900 border border-slate-800 rounded-xl rtl:pr-11 rtl:pl-4 ltr:pl-11 ltr:pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-orange-500">
                     </div>
 
                     <div class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-start md:justify-end">
-                        <span class="text-xs font-semibold text-slate-400 ml-1">تصفية حسب:</span>
-                        <button onclick="filterByEntity('all', this)" class="filter-btn text-xs px-2.5 py-1 rounded-lg border border-orange-500/40 bg-orange-500/20 text-orange-300 font-semibold transition">الكل</button>
-                        <button onclick="filterByEntity('المركز الإقليمي', this)" class="filter-btn text-xs px-2.5 py-1 rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 transition">المركز الإقليمي</button>
-                        <button onclick="filterByEntity('الأنشطة', this)" class="filter-btn text-xs px-2.5 py-1 rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 transition">الأنشطة</button>
-                        <button onclick="filterByEntity('قطاع الوكالة المساعدة للتعليم', this)" class="filter-btn text-xs px-2.5 py-1 rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 transition">قطاع الوكالة المساعدة للتعليم</button>
+                        <span id="filter-label" class="text-xs font-semibold text-slate-400 ml-1">تصفية حسب:</span>
+                        <button id="flt-all" onclick="filterByEntity('all', this)" class="filter-btn text-xs px-2.5 py-1 rounded-lg border border-orange-500/40 bg-orange-500/20 text-orange-300 font-semibold transition">الكل</button>
+                        <button id="flt-rcict" onclick="filterByEntity('المركز الإقليمي', this)" class="filter-btn text-xs px-2.5 py-1 rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 transition">المركز الإقليمي</button>
+                        <button id="flt-act" onclick="filterByEntity('الأنشطة', this)" class="filter-btn text-xs px-2.5 py-1 rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 transition">الأنشطة</button>
+                        <button id="flt-edu" onclick="filterByEntity('قطاع الوكالة المساعدة للتعليم', this)" class="filter-btn text-xs px-2.5 py-1 rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 transition">قطاع الوكالة المساعدة للتعليم</button>
                     </div>
                 </div>
 
@@ -257,8 +426,8 @@
                             <div class="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 font-black text-lg shrink-0">1</div>
                             <div>
                                 <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-3">
-                                    المرحلة الأولى: الترشح الأولي
-                                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20 font-semibold">أكتوبر 2026 - ديسمبر 2026</span>
+                                    <span id="p1-title">المرحلة الأولى: الترشح الأولي</span>
+                                    <span id="p1-badge" class="text-xs px-2.5 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20 font-semibold">أكتوبر 2026 - ديسمبر 2026</span>
                                 </h2>
                             </div>
                         </div>
@@ -266,44 +435,44 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <!-- Step 1 -->
                             <div class="glass-card p-5 rounded-2xl relative overflow-hidden card-item" id="card-task-1" data-entity="قطاع الوكالة المساعدة للتعليم">
-                                <div class="w-1.5 h-full bg-orange-500 absolute top-0 right-0"></div>
-                                <div class="flex justify-between items-start mb-3 pr-2">
-                                    <span class="text-[11px] font-bold text-orange-400 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/20">الأسبوع 4 - أكتوبر 2026</span>
+                                <div class="w-1.5 h-full bg-orange-500 absolute top-0 rtl:right-0 ltr:left-0"></div>
+                                <div class="flex justify-between items-start mb-3 px-2">
+                                    <span id="t1-date" class="text-[11px] font-bold text-orange-400 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/20">الأسبوع 4 - أكتوبر 2026</span>
                                     <label class="inline-flex items-center cursor-pointer no-print">
                                         <input type="checkbox" onchange="toggleTask(1)" id="check-task-1" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 bg-slate-800 border-slate-700">
                                     </label>
                                 </div>
-                                <h3 class="text-base font-bold text-slate-100 mb-2 pr-2">إعلان المسابقة للمدارس</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed pr-2">تعميم إعلان المسابقة رسمياً لكافة المدارس المعنية للبدء في تجهيز الطلبة.</p>
-                                <span class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-user-gear ml-1"></i>قطاع الوكالة المساعدة للتعليم</span>
+                                <h3 id="t1-title" class="text-base font-bold text-slate-100 mb-2 px-2">إعلان المسابقة للمدارس</h3>
+                                <p id="t1-desc" class="text-xs text-slate-400 leading-relaxed px-2">تعميم إعلان المسابقة رسمياً لكافة المدارس المعنية للبدء في تجهيز الطلبة.</p>
+                                <span id="t1-ent" class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-user-gear mx-1"></i>قطاع الوكالة المساعدة للتعليم</span>
                             </div>
 
                             <!-- Step 2 -->
                             <div class="glass-card p-5 rounded-2xl relative overflow-hidden card-item" id="card-task-2" data-entity="المدارس">
-                                <div class="w-1.5 h-full bg-orange-500 absolute top-0 right-0"></div>
-                                <div class="flex justify-between items-start mb-3 pr-2">
-                                    <span class="text-[11px] font-bold text-orange-400 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/20">نوفمبر - الأسبوع 3 ديسمبر 2026</span>
+                                <div class="w-1.5 h-full bg-orange-500 absolute top-0 rtl:right-0 ltr:left-0"></div>
+                                <div class="flex justify-between items-start mb-3 px-2">
+                                    <span id="t2-date" class="text-[11px] font-bold text-orange-400 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/20">نوفمبر - الأسبوع 3 ديسمبر 2026</span>
                                     <label class="inline-flex items-center cursor-pointer no-print">
                                         <input type="checkbox" onchange="toggleTask(2)" id="check-task-2" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 bg-slate-800 border-slate-700">
                                     </label>
                                 </div>
-                                <h3 class="text-base font-bold text-slate-100 mb-2 pr-2">ترشيح طالبين من كل مدرسة</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed pr-2">اختيار وترشيح طالبين كحد أقصى من كل مدرسة للمشاركة.</p>
-                                <span class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-school ml-1"></i>المدارس</span>
+                                <h3 id="t2-title" class="text-base font-bold text-slate-100 mb-2 px-2">ترشيح طالبين من كل مدرسة</h3>
+                                <p id="t2-desc" class="text-xs text-slate-400 leading-relaxed px-2">اختيار وترشيح طالبين كحد أقصى من كل مدرسة للمشاركة.</p>
+                                <span id="t2-ent" class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-school mx-1"></i>المدارس</span>
                             </div>
 
                             <!-- Step 3 -->
                             <div class="glass-card p-5 rounded-2xl relative overflow-hidden card-item" id="card-task-3" data-entity="المركز الإقليمي">
-                                <div class="w-1.5 h-full bg-orange-500 absolute top-0 right-0"></div>
-                                <div class="flex justify-between items-start mb-3 pr-2">
-                                    <span class="text-[11px] font-bold text-orange-400 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/20">الأسبوع 4 - ديسمبر 2026</span>
+                                <div class="w-1.5 h-full bg-orange-500 absolute top-0 rtl:right-0 ltr:left-0"></div>
+                                <div class="flex justify-between items-start mb-3 px-2">
+                                    <span id="t3-date" class="text-[11px] font-bold text-orange-400 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/20">الأسبوع 4 - ديسمبر 2026</span>
                                     <label class="inline-flex items-center cursor-pointer no-print">
                                         <input type="checkbox" onchange="toggleTask(3)" id="check-task-3" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 bg-slate-800 border-slate-700">
                                     </label>
                                 </div>
-                                <h3 class="text-base font-bold text-slate-100 mb-2 pr-2">تجميع الأعمال الأولية</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed pr-2">تجميع الأعمال وتخزينها على OneDrive لإرسالها إلى لجنة الفرز.</p>
-                                <span class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-cloud-arrow-up ml-1"></i>المركز الإقليمي لتكنولوجيا المعلومات والاتصال</span>
+                                <h3 id="t3-title" class="text-base font-bold text-slate-100 mb-2 px-2">تجميع الأعمال الأولية</h3>
+                                <p id="t3-desc" class="text-xs text-slate-400 leading-relaxed px-2">تجميع الأعمال وتخزينها على OneDrive لإرسالها إلى لجنة الفرز.</p>
+                                <span id="t3-ent" class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-cloud-arrow-up mx-1"></i>المركز الإقليمي لتكنولوجيا المعلومات والاتصال</span>
                             </div>
                         </div>
                     </div>
@@ -314,81 +483,81 @@
                             <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 font-black text-lg shrink-0">2</div>
                             <div>
                                 <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-3">
-                                    المرحلة الثانية: الفرز والتصنيف والدعم التقني والإبداعي
-                                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 font-semibold">يناير 2027 - مارس 2027</span>
+                                    <span id="p2-title">المرحلة الثانية: الفرز والتصنيف والدعم التقني والإبداعي</span>
+                                    <span id="p2-badge" class="text-xs px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 font-semibold">يناير 2027 - مارس 2027</span>
                                 </h2>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <!-- Step 1 -->
+                            <!-- Step 4 -->
                             <div class="glass-card p-5 rounded-2xl relative overflow-hidden card-item" id="card-task-4" data-entity="الأنشطة">
-                                <div class="w-1.5 h-full bg-sky-500 absolute top-0 right-0"></div>
-                                <div class="flex justify-between items-start mb-3 pr-2">
-                                    <span class="text-[11px] font-bold text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">يناير 2027</span>
+                                <div class="w-1.5 h-full bg-sky-500 absolute top-0 rtl:right-0 ltr:left-0"></div>
+                                <div class="flex justify-between items-start mb-3 px-2">
+                                    <span id="t4-date" class="text-[11px] font-bold text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">يناير 2027</span>
                                     <label class="inline-flex items-center cursor-pointer no-print">
                                         <input type="checkbox" onchange="toggleTask(4)" id="check-task-4" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 bg-slate-800 border-slate-700">
                                     </label>
                                 </div>
-                                <h3 class="text-base font-bold text-slate-100 mb-2 pr-2">فرز الأعمال وتصنيف الطلبة</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed pr-2">فرز المشاركات وتصنيف الطلبة إلى (متوسط ومتقدم) واعتماد 100 مشارك كحد أقصى.</p>
-                                <span class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-filter ml-1"></i>إدارة الأنشطة الطلابية</span>
+                                <h3 id="t4-title" class="text-base font-bold text-slate-100 mb-2 px-2">فرز الأعمال وتصنيف الطلبة</h3>
+                                <p id="t4-desc" class="text-xs text-slate-400 leading-relaxed px-2">فرز المشاركات وتصنيف الطلبة إلى (متوسط ومتقدم) واعتماد 100 مشارك كحد أقصى.</p>
+                                <span id="t4-ent" class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-filter mx-1"></i>إدارة الأنشطة الطلابية</span>
                             </div>
 
-                            <!-- Step 2 -->
+                            <!-- Step 5 -->
                             <div class="glass-card p-5 rounded-2xl relative overflow-hidden card-item" id="card-task-5" data-entity="المركز الإقليمي">
-                                <div class="w-1.5 h-full bg-sky-500 absolute top-0 right-0"></div>
-                                <div class="flex justify-between items-start mb-3 pr-2">
-                                    <span class="text-[11px] font-bold text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">الأسبوع 1 - فبراير 2027</span>
+                                <div class="w-1.5 h-full bg-sky-500 absolute top-0 rtl:right-0 ltr:left-0"></div>
+                                <div class="flex justify-between items-start mb-3 px-2">
+                                    <span id="t5-date" class="text-[11px] font-bold text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">الأسبوع 1 - فبراير 2027</span>
                                     <label class="inline-flex items-center cursor-pointer no-print">
                                         <input type="checkbox" onchange="toggleTask(5)" id="check-task-5" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 bg-slate-800 border-slate-700">
                                     </label>
                                 </div>
-                                <h3 class="text-base font-bold text-slate-100 mb-2 pr-2">إخطار المدارس بالطلبة المقبولين</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed pr-2">إبلاغ المدارس بالطلبة المقبولين في المرحلة الثانية وإرفاق الجدول التدريبي.</p>
-                                <span class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-paper-plane ml-1"></i>المركز الإقليمي لتكنولوجيا المعلومات والاتصال</span>
+                                <h3 id="t5-title" class="text-base font-bold text-slate-100 mb-2 px-2">إخطار المدارس بالطلبة المقبولين</h3>
+                                <p id="t5-desc" class="text-xs text-slate-400 leading-relaxed px-2">إبلاغ المدارس بالطلبة المقبولين في المرحلة الثانية وإرفاق الجدول التدريبي.</p>
+                                <span id="t5-ent" class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-paper-plane mx-1"></i>المركز الإقليمي لتكنولوجيا المعلومات والاتصال</span>
                             </div>
 
-                            <!-- Step 3 -->
+                            <!-- Step 6 -->
                             <div class="glass-card p-5 rounded-2xl relative overflow-hidden card-item" id="card-task-6" data-entity="قطاع الوكالة المساعدة للتعليم">
-                                <div class="w-1.5 h-full bg-sky-500 absolute top-0 right-0"></div>
-                                <div class="flex justify-between items-start mb-3 pr-2">
-                                    <span class="text-[11px] font-bold text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">الأسبوع 3 - فبراير 2027</span>
+                                <div class="w-1.5 h-full bg-sky-500 absolute top-0 rtl:right-0 ltr:left-0"></div>
+                                <div class="flex justify-between items-start mb-3 px-2">
+                                    <span id="t6-date" class="text-[11px] font-bold text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">الأسبوع 3 - فبراير 2027</span>
                                     <label class="inline-flex items-center cursor-pointer no-print">
                                         <input type="checkbox" onchange="toggleTask(6)" id="check-task-6" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 bg-slate-800 border-slate-700">
                                     </label>
                                 </div>
-                                <h3 class="text-base font-bold text-slate-100 mb-2 pr-2">تعميم الورش التدريبية</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed pr-2">تعميم المواعيد للمدارس المعنية والمنسقين.</p>
-                                <span class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-bullhorn ml-1"></i>قطاع الوكالة المساعدة للتعليم</span>
+                                <h3 id="t6-title" class="text-base font-bold text-slate-100 mb-2 px-2">تعميم الورش التدريبية</h3>
+                                <p id="t6-desc" class="text-xs text-slate-400 leading-relaxed px-2">تعميم المواعيد للمدارس المعنية والمنسقين.</p>
+                                <span id="t6-ent" class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-bullhorn mx-1"></i>قطاع الوكالة المساعدة للتعليم</span>
                             </div>
 
-                            <!-- Step 4 -->
+                            <!-- Step 7 -->
                             <div class="glass-card p-5 rounded-2xl relative overflow-hidden card-item" id="card-task-7" data-entity="المركز الإقليمي">
-                                <div class="w-1.5 h-full bg-sky-500 absolute top-0 right-0"></div>
-                                <div class="flex justify-between items-start mb-3 pr-2">
-                                    <span class="text-[11px] font-bold text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">الأسبوع 3 - مارس 2027</span>
+                                <div class="w-1.5 h-full bg-sky-500 absolute top-0 rtl:right-0 ltr:left-0"></div>
+                                <div class="flex justify-between items-start mb-3 px-2">
+                                    <span id="t7-date" class="text-[11px] font-bold text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">الأسبوع 3 - مارس 2027</span>
                                     <label class="inline-flex items-center cursor-pointer no-print">
                                         <input type="checkbox" onchange="toggleTask(7)" id="check-task-7" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 bg-slate-800 border-slate-700">
                                     </label>
                                 </div>
-                                <h3 class="text-base font-bold text-slate-100 mb-2 pr-2">الجلسات والورش التدريبية</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed pr-2">جلسة تعريفية للمنسقين وورش تخصصية للمستويين المتوسط والمتقدم.</p>
-                                <span class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-chalkboard-user ml-1"></i>المركز الإقليمي لتكنولوجيا المعلومات والاتصال</span>
+                                <h3 id="t7-title" class="text-base font-bold text-slate-100 mb-2 px-2">الجلسات والورش التدريبية</h3>
+                                <p id="t7-desc" class="text-xs text-slate-400 leading-relaxed px-2">جلسة تعريفية للمنسقين وورش تخصصية للمستويين المتوسط والمتقدم.</p>
+                                <span id="t7-ent" class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-chalkboard-user mx-1"></i>المركز الإقليمي لتكنولوجيا المعلومات والاتصال</span>
                             </div>
 
-                            <!-- Step 5 -->
+                            <!-- Step 8 -->
                             <div class="glass-card p-5 rounded-2xl relative overflow-hidden card-item md:col-span-2" id="card-task-8" data-entity="المركز الإقليمي">
-                                <div class="w-1.5 h-full bg-sky-500 absolute top-0 right-0"></div>
-                                <div class="flex justify-between items-start mb-3 pr-2">
-                                    <span class="text-[11px] font-bold text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">الأسبوع 4 - مارس 2027</span>
+                                <div class="w-1.5 h-full bg-sky-500 absolute top-0 rtl:right-0 ltr:left-0"></div>
+                                <div class="flex justify-between items-start mb-3 px-2">
+                                    <span id="t8-date" class="text-[11px] font-bold text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">الأسبوع 4 - مارس 2027</span>
                                     <label class="inline-flex items-center cursor-pointer no-print">
                                         <input type="checkbox" onchange="toggleTask(8)" id="check-task-8" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 bg-slate-800 border-slate-700">
                                     </label>
                                 </div>
-                                <h3 class="text-base font-bold text-slate-100 mb-2 pr-2">تجميع الأعمال النهائية</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed pr-2">استلام المشاركات النهائية والتصاميم المكتملة ورفعها للجنة التقييم والتحكيم.</p>
-                                <span class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-cloud-arrow-up ml-1"></i>المركز الإقليمي لتكنولوجيا المعلومات والاتصال</span>
+                                <h3 id="t8-title" class="text-base font-bold text-slate-100 mb-2 px-2">تجميع الأعمال النهائية</h3>
+                                <p id="t8-desc" class="text-xs text-slate-400 leading-relaxed px-2">استلام المشاركات النهائية والتصاميم المكتملة ورفعها للجنة التقييم والتحكيم.</p>
+                                <span id="t8-ent" class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-cloud-arrow-up mx-1"></i>المركز الإقليمي لتكنولوجيا المعلومات والاتصال</span>
                             </div>
                         </div>
                     </div>
@@ -399,53 +568,53 @@
                             <div class="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg shrink-0">3</div>
                             <div>
                                 <h2 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-3">
-                                    المرحلة الثالثة: التقييم والتحكيم والتصفيات النهائية
-                                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/20 font-semibold">أبريل 2027</span>
+                                    <span id="p3-title">المرحلة الثالثة: التقييم والتحكيم والتصفيات النهائية</span>
+                                    <span id="p3-badge" class="text-xs px-2.5 py-0.5 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/20 font-semibold">أبريل 2027</span>
                                 </h2>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <!-- Step 1 -->
+                            <!-- Step 9 -->
                             <div class="glass-card p-5 rounded-2xl relative overflow-hidden card-item" id="card-task-9" data-entity="الأنشطة">
-                                <div class="w-1.5 h-full bg-teal-500 absolute top-0 right-0"></div>
-                                <div class="flex justify-between items-start mb-3 pr-2">
-                                    <span class="text-[11px] font-bold text-teal-400 bg-teal-500/10 px-2.5 py-0.5 rounded-full border border-teal-500/20">الأسبوع 3 - أبريل 2027</span>
+                                <div class="w-1.5 h-full bg-teal-500 absolute top-0 rtl:right-0 ltr:left-0"></div>
+                                <div class="flex justify-between items-start mb-3 px-2">
+                                    <span id="t9-date" class="text-[11px] font-bold text-teal-400 bg-teal-500/10 px-2.5 py-0.5 rounded-full border border-teal-500/20">الأسبوع 3 - أبريل 2027</span>
                                     <label class="inline-flex items-center cursor-pointer no-print">
                                         <input type="checkbox" onchange="toggleTask(9)" id="check-task-9" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 bg-slate-800 border-slate-700">
                                     </label>
                                 </div>
-                                <h3 class="text-base font-bold text-slate-100 mb-2 pr-2">تقييم المتأهلين (8 لكل مستوى)</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed pr-2">تقييم المشاركات وتحديد 8 أعمال متأهلة لكل مستوى (16 عملاً).</p>
-                                <span class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-magnifying-glass-chart ml-1"></i>إدارة الأنشطة الطلابية</span>
+                                <h3 id="t9-title" class="text-base font-bold text-slate-100 mb-2 px-2">تقييم المتأهلين (8 لكل مستوى)</h3>
+                                <p id="t9-desc" class="text-xs text-slate-400 leading-relaxed px-2">تقييم المشاركات وتحديد 8 أعمال متأهلة لكل مستوى (16 عملاً).</p>
+                                <span id="t9-ent" class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-magnifying-glass-chart mx-1"></i>إدارة الأنشطة الطلابية</span>
                             </div>
 
-                            <!-- Step 2 -->
+                            <!-- Step 10 -->
                             <div class="glass-card p-5 rounded-2xl relative overflow-hidden card-item" id="card-task-10" data-entity="قطاع الوكالة المساعدة للتعليم">
-                                <div class="w-1.5 h-full bg-teal-500 absolute top-0 right-0"></div>
-                                <div class="flex justify-between items-start mb-3 pr-2">
-                                    <span class="text-[11px] font-bold text-teal-400 bg-teal-500/10 px-2.5 py-0.5 rounded-full border border-teal-500/20">الأسبوع 3 - أبريل 2027</span>
+                                <div class="w-1.5 h-full bg-teal-500 absolute top-0 rtl:right-0 ltr:left-0"></div>
+                                <div class="flex justify-between items-start mb-3 px-2">
+                                    <span id="t10-date" class="text-[11px] font-bold text-teal-400 bg-teal-500/10 px-2.5 py-0.5 rounded-full border border-teal-500/20">الأسبوع 3 - أبريل 2027</span>
                                     <label class="inline-flex items-center cursor-pointer no-print">
                                         <input type="checkbox" onchange="toggleTask(10)" id="check-task-10" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 bg-slate-800 border-slate-700">
                                     </label>
                                 </div>
-                                <h3 class="text-base font-bold text-slate-100 mb-2 pr-2">دعوة المدارس المتأهلة</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed pr-2">إرسال دعوات حضور المعرض والاحتفال الختامي لتكريم الطلبة.</p>
-                                <span class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-paper-plane ml-1"></i>قطاع الوكالة المساعدة للتعليم</span>
+                                <h3 id="t10-title" class="text-base font-bold text-slate-100 mb-2 px-2">دعوة المدارس المتأهلة</h3>
+                                <p id="t10-desc" class="text-xs text-slate-400 leading-relaxed px-2">إرسال دعوات حضور المعرض والاحتفال الختامي لتكريم الطلبة.</p>
+                                <span id="t10-ent" class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-paper-plane mx-1"></i>قطاع الوكالة المساعدة للتعليم</span>
                             </div>
 
-                            <!-- Step 3 -->
+                            <!-- Step 11 -->
                             <div class="glass-card p-5 rounded-2xl relative overflow-hidden card-item" id="card-task-11" data-entity="الكل">
-                                <div class="w-1.5 h-full bg-teal-500 absolute top-0 right-0"></div>
-                                <div class="flex justify-between items-start mb-3 pr-2">
-                                    <span class="text-[11px] font-bold text-teal-400 bg-teal-500/10 px-2.5 py-0.5 rounded-full border border-teal-500/20">الأسبوع 4 - أبريل 2027</span>
+                                <div class="w-1.5 h-full bg-teal-500 absolute top-0 rtl:right-0 ltr:left-0"></div>
+                                <div class="flex justify-between items-start mb-3 px-2">
+                                    <span id="t11-date" class="text-[11px] font-bold text-teal-400 bg-teal-500/10 px-2.5 py-0.5 rounded-full border border-teal-500/20">الأسبوع 4 - أبريل 2027</span>
                                     <label class="inline-flex items-center cursor-pointer no-print">
                                         <input type="checkbox" onchange="toggleTask(11)" id="check-task-11" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 bg-slate-800 border-slate-700">
                                     </label>
                                 </div>
-                                <h3 class="text-base font-bold text-slate-100 mb-2 pr-2">التكريم وإعلان الفائزين</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed pr-2">التحكيم النهائي بمقر المركز واستعراض الأعمال في المعرض الختامي.</p>
-                                <span class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-trophy ml-1"></i>التحكيم المشترك</span>
+                                <h3 id="t11-title" class="text-base font-bold text-slate-100 mb-2 px-2">التكريم وإعلان الفائزين</h3>
+                                <p id="t11-desc" class="text-xs text-slate-400 leading-relaxed px-2">التحكيم النهائي بمقر المركز واستعراض الأعمال في المعرض الختامي.</p>
+                                <span id="t11-ent" class="inline-block mt-3 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-1 rounded"><i class="fa-solid fa-trophy mx-1"></i>التحكيم المشترك</span>
                             </div>
                         </div>
                     </div>
@@ -458,46 +627,46 @@
 
                         <!-- RCICT Card -->
                         <div class="glass-panel p-6 rounded-3xl border-t-4 border-t-orange-500 relative">
-                            <h3 class="text-lg font-bold text-white mb-1">المركز الإقليمي لتكنولوجيا المعلومات والاتصال</h3>
-                            <span class="text-xs text-orange-400 font-semibold block mb-4">التنسيق العام للمسابقة</span>
-                            <ul class="space-y-2.5 text-xs text-slate-300">
-                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-orange-400 mt-0.5"></i> تجميع الأعمال الأولية ورفعها على OneDrive.</li>
-                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-orange-400 mt-0.5"></i> إخطار المدارس بالطلبة المقبولين والجدول التدريبي.</li>
-                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-orange-400 mt-0.5"></i> تنفيذ الجلسة التعريفية والورش للطلبة والمنسقين.</li>
-                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-orange-400 mt-0.5"></i> المشاركة في التحكيم النهائي واستضافة المعرض الختامي بمقر المركز.</li>
+                            <h3 id="resp-rcict-title" class="text-lg font-bold text-white mb-1">المركز الإقليمي لتكنولوجيا المعلومات والاتصال</h3>
+                            <span id="resp-rcict-sub" class="text-xs text-orange-400 font-semibold block mb-4">التنسيق العام للمسابقة</span>
+                            <ul id="resp-rcict-list" class="space-y-2.5 text-xs text-slate-300">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-orange-400 mt-0.5"></i> <span>تجميع الأعمال الأولية ورفعها على OneDrive.</span></li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-orange-400 mt-0.5"></i> <span>إخطار المدارس بالطلبة المقبولين والجدول التدريبي.</span></li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-orange-400 mt-0.5"></i> <span>تنفيذ الجلسة التعريفية والورش للطلبة والمنسقين.</span></li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-orange-400 mt-0.5"></i> <span>المشاركة في التحكيم النهائي واستضافة المعرض الختامي بمقر المركز.</span></li>
                             </ul>
                         </div>
 
                         <!-- Activities Dept Card -->
                         <div class="glass-panel p-6 rounded-3xl border-t-4 border-t-sky-500 relative">
-                            <h3 class="text-lg font-bold text-white mb-1">إدارة الأنشطة الطلابية</h3>
-                            <span class="text-xs text-sky-400 font-semibold block mb-4">الفرز والتقييم وااختيار المتأهلين</span>
-                            <ul class="space-y-2.5 text-xs text-slate-300">
-                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-sky-400 mt-0.5"></i> الفرز الأول: تصنيف الطلبة لـ (متوسط/متقدم) واعتماد 100 مشارك.</li>
-                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-sky-400 mt-0.5"></i> الفرز الثاني: تقييم الأعمال وتحديد 8 متأهلين لكل مستوى.</li>
-                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-sky-400 mt-0.5"></i> المرحلة الثالثة: إعداد استمارات التقييم والتحكيم النهائي.</li>
+                            <h3 id="resp-act-title" class="text-lg font-bold text-white mb-1">إدارة الأنشطة الطلابية</h3>
+                            <span id="resp-act-sub" class="text-xs text-sky-400 font-semibold block mb-4">الفرز والتقييم واختيار المتأهلين</span>
+                            <ul id="resp-act-list" class="space-y-2.5 text-xs text-slate-300">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-sky-400 mt-0.5"></i> <span>الفرز الأول: تصنيف الطلبة لـ (متوسط/متقدم) واعتماد 100 مشارك.</span></li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-sky-400 mt-0.5"></i> <span>الفرز الثاني: تقييم الأعمال وتحديد 8 متأهلين لكل مستوى.</span></li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-sky-400 mt-0.5"></i> <span>المرحلة الثالثة: إعداد استمارات التقييم والتحكيم النهائي.</span></li>
                             </ul>
                         </div>
 
                         <!-- Assistance Directorate Card -->
                         <div class="glass-panel p-6 rounded-3xl border-t-4 border-t-teal-500 relative">
-                            <h3 class="text-lg font-bold text-white mb-1">قطاع الوكالة المساعدة للتعليم</h3>
-                            <span class="text-xs text-teal-400 font-semibold block mb-4">التعاميم والإشراف التنفيذي</span>
-                            <ul class="space-y-2.5 text-xs text-slate-300">
-                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-teal-400 mt-0.5"></i> تعميم إعلان المسابقة للمدارس المستهدفة.</li>
-                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-teal-400 mt-0.5"></i> تعميم جدول الورش التدريبية ودعوة الحفل المعرض الختامي.</li>
-                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-teal-400 mt-0.5"></i> المشاركة في التحكيم النهائي بمقر المركز.</li>
+                            <h3 id="resp-edu-title" class="text-lg font-bold text-white mb-1">قطاع الوكالة المساعدة للتعليم</h3>
+                            <span id="resp-edu-sub" class="text-xs text-teal-400 font-semibold block mb-4">التعاميم والإشراف التنفيذي</span>
+                            <ul id="resp-edu-list" class="space-y-2.5 text-xs text-slate-300">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-teal-400 mt-0.5"></i> <span>تعميم إعلان المسابقة للمدارس المستهدفة.</span></li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-teal-400 mt-0.5"></i> <span>تعميم جدول الورش التدريبية ودعوة الحفل المعرض الختامي.</span></li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-teal-400 mt-0.5"></i> <span>المشاركة في التحكيم النهائي بمقر المركز.</span></li>
                             </ul>
                         </div>
 
                         <!-- Schools Card -->
                         <div class="glass-panel p-6 rounded-3xl border-t-4 border-t-slate-500 relative">
-                            <h3 class="text-lg font-bold text-white mb-1">المدارس</h3>
-                            <span class="text-xs text-slate-400 font-semibold block mb-4">الميدان التربوي والترشيح والمتابعة</span>
-                            <ul class="space-y-2.5 text-xs text-slate-300">
-                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-slate-400 mt-0.5"></i> ترشيح طالبين من كل مدرسة ومتابعة مشاركتهم.</li>
-                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-slate-400 mt-0.5"></i> تسليم الأعمال الأولية والنهائية في المواعيد المحددة.</li>
-                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-slate-400 mt-0.5"></i> متابعة حضور الطلبة المعنيين للورش التدريبية والجلسات التعريفية.</li>
+                            <h3 id="resp-sch-title" class="text-lg font-bold text-white mb-1">المدارس</h3>
+                            <span id="resp-sch-sub" class="text-xs text-slate-400 font-semibold block mb-4">الميدان التربوي والترشيح والمتابعة</span>
+                            <ul id="resp-sch-list" class="space-y-2.5 text-xs text-slate-300">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-slate-400 mt-0.5"></i> <span>ترشيح طالبين من كل مدرسة ومتابعة مشاركتهم.</span></li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-slate-400 mt-0.5"></i> <span>تسليم الأعمال الأولية والنهائية في المواعيد المحددة.</span></li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-slate-400 mt-0.5"></i> <span>متابعة حضور الطلبة المعنيين للورش التدريبية والجلسات التعريفية.</span></li>
                             </ul>
                         </div>
 
@@ -508,14 +677,14 @@
                 <div id="view-all" class="hidden">
                     <div class="glass-panel rounded-2xl overflow-hidden border border-slate-800">
                         <div class="overflow-x-auto">
-                            <table class="w-full text-right text-xs text-slate-300">
+                            <table class="w-full text-right ltr:text-left text-xs text-slate-300">
                                 <thead class="bg-slate-900 text-slate-400 uppercase border-b border-slate-800">
                                     <tr>
-                                        <th scope="col" class="px-4 py-3">المهمة والإجراء</th>
-                                        <th scope="col" class="px-4 py-3">المرحلة</th>
-                                        <th scope="col" class="px-4 py-3">الفترة الزمنية</th>
-                                        <th scope="col" class="px-4 py-3">الجهة المسؤولة</th>
-                                        <th scope="col" class="px-4 py-3 no-print">الحالة</th>
+                                        <th scope="col" id="th-task" class="px-4 py-3">المهمة والإجراء</th>
+                                        <th scope="col" id="th-phase" class="px-4 py-3">المرحلة</th>
+                                        <th scope="col" id="th-date" class="px-4 py-3">الفترة الزمنية</th>
+                                        <th scope="col" id="th-entity" class="px-4 py-3">الجهة المسؤولة</th>
+                                        <th scope="col" id="th-status" class="px-4 py-3 no-print">الحالة</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tasksTableBody" class="divide-y divide-slate-800/60">
@@ -532,28 +701,415 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-800/80 bg-slate-950 py-6 mt-12 text-center text-xs text-slate-500">
-        <div class="max-w-7xl mx-auto px-4">
+        <div id="footer-text" class="max-w-7xl mx-auto px-4">
             جميع الحقوق محفوظة © المركز الإقليمي لتكنولوجيا المعلومات والاتصال (RCICT) 2026/2027
         </div>
     </footer>
 
     <!-- Interactive Script -->
     <script>
+        // Define all tasks data and persistent completion state
+        let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
         const allTasks = [
-            { id: 1, phase: 'المرحلة 1: الترشح الأولي', task: 'إعلان المسابقة للمدارس', date: 'الأسبوع الرابع من أكتوبر 2026', entity: 'قطاع الوكالة المساعدة للتعليم', entityKey: 'قطاع الوكالة المساعدة للتعليم' },
-            { id: 2, phase: 'المرحلة 1: الترشح الأولي', task: 'ترشيح طالبين من كل مدرسة', date: 'من الأسبوع الأول من نوفمبر حتى 3 ديسمبر 2026', entity: 'المدارس', entityKey: 'المدارس' },
-            { id: 3, phase: 'المرحلة 1: الترشح الأولي', task: 'تجميع الأعمال الأولية ورفعها على OneDrive', date: 'الأسبوع الرابع من ديسمبر 2026', entity: 'المركز الإقليمي لتكنولوجيا المعلومات والاتصال', entityKey: 'المركز الإقليمي' },
-            { id: 4, phase: 'المرحلة 2: الفرز والدعم', task: 'فرز الأعمال وتصنيف الطلبة (متوسط/متقدم) واعتماد 100 مشارك', date: 'يناير 2027', entity: 'إدارة الأنشطة الطلابية', entityKey: 'الأنشطة' },
-            { id: 5, phase: 'المرحلة 2: الفرز والدعم', task: 'إخطار المدارس بالطلبة المقبولين وإرفاق جدول التدريب', date: 'الأسبوع الأول من فبراير 2027', entity: 'المركز الإقليمي لتكنولوجيا المعلومات والاتصال', entityKey: 'المركز الإقليمي' },
-            { id: 6, phase: 'المرحلة 2: الفرز والدعم', task: 'تعميم جدول الورش التدريبية للمدارس المعنية', date: 'الأسبوع الثالث من فبراير 2027', entity: 'قطاع الوكالة المساعدة للتعليم', entityKey: 'قطاع الوكالة المساعدة للتعليم' },
-            { id: 7, phase: 'المرحلة 2: الفرز والدعم', task: 'تنفيذ جلسة تعريفية للمنسقين وورش للطلبة', date: 'الأسبوع الثالث من مارس 2027', entity: 'المركز الإقليمي لتكنولوجيا المعلومات والاتصال', entityKey: 'المركز الإقليمي' },
-            { id: 8, phase: 'المرحلة 2: الفرز والدعم', task: 'تجميع الأعمال النهائية ورفعها إلى لجنة الفرز', date: 'الأسبوع الرابع من مارس 2027', entity: 'المركز الإقليمي لتكنولوجيا المعلومات والاتصال', entityKey: 'المركز الإقليمي' },
-            { id: 9, phase: 'المرحلة 3: التقييم والتصفيات', task: 'تقييم الأعمال وتحديد 8 متأهلين لكل مستوى', date: 'الأسبوع الثالث من أبريل 2027', entity: 'إدارة الأنشطة الطلابية', entityKey: 'الأنشطة' },
-            { id: 10, phase: 'المرحلة 3: التقييم والتصفيات', task: 'دعوة المدارس المتأهلة للحضور والحفل الختامي', date: 'الأسبوع الثالث من أبريل 2027', entity: 'قطاع الوكالة المساعدة للتعليم', entityKey: 'قطاع الوكالة المساعدة للتعليم' },
-            { id: 11, phase: 'المرحلة 3: التقييم والتصفيات', task: 'التكريم النهائي وعرض الأعمال وتحديد الفائزين', date: 'الأسبوع الرابع من أبريل 2027', entity: 'التحكيم المشترك (جميع الجهات)', entityKey: 'الكل' }
+            { id: 1, phase: 'المرحلة الأولى: الترشح الأولي', phaseEn: 'Phase 1: Initial Nomination', task: 'إعلان المسابقة للمدارس', taskEn: 'Announce Competition to Schools', date: 'الأسبوع 4 - أكتوبر 2026', dateEn: 'Week 4 - October 2026', entity: 'قطاع الوكالة المساعدة للتعليم', entityEn: 'Assistant Directorate for Education', entityKey: 'قطاع الوكالة المساعدة للتعليم' },
+            { id: 2, phase: 'المرحلة الأولى: الترشح الأولي', phaseEn: 'Phase 1: Initial Nomination', task: 'ترشيح طالبين من كل مدرسة', taskEn: 'Nominate 2 Students per School', date: 'نوفمبر - الأسبوع 3 ديسمبر 2026', dateEn: 'Nov - Week 3 Dec 2026', entity: 'المدارس', entityEn: 'Schools', entityKey: 'المدارس' },
+            { id: 3, phase: 'المرحلة الأولى: الترشح الأولي', phaseEn: 'Phase 1: Initial Nomination', task: 'تجميع الأعمال الأولية', taskEn: 'Collect Initial Entries', date: 'الأسبوع 4 - ديسمبر 2026', dateEn: 'Week 4 - December 2026', entity: 'المركز الإقليمي لتكنولوجيا المعلومات والاتصال', entityEn: 'Regional Centre for ICT', entityKey: 'المركز الإقليمي' },
+            { id: 4, phase: 'المرحلة الثانية: الفرز والتصنيف والدعم التقني والإبداعي', phaseEn: 'Phase 2: Screening, Categorization & Creative Support', task: 'فرز الأعمال وتصنيف الطلبة', taskEn: 'Screen Submissions & Categorize', date: 'يناير 2027', dateEn: 'January 2027', entity: 'إدارة الأنشطة الطلابية', entityEn: 'Student Activities Directorate', entityKey: 'الأنشطة' },
+            { id: 5, phase: 'المرحلة الثانية: الفرز والتصنيف والدعم التقني والإبداعي', phaseEn: 'Phase 2: Screening, Categorization & Creative Support', task: 'إخطار المدارس بالطلبة المقبولين', taskEn: 'Notify Schools of Accepted Students', date: 'الأسبوع 1 - فبراير 2027', dateEn: 'Week 1 - February 2027', entity: 'المركز الإقليمي لتكنولوجيا المعلومات والاتصال', entityEn: 'Regional Centre for ICT', entityKey: 'المركز الإقليمي' },
+            { id: 6, phase: 'المرحلة الثانية: الفرز والتصنيف والدعم التقني والإبداعي', phaseEn: 'Phase 2: Screening, Categorization & Creative Support', task: 'تعميم الورش التدريبية', taskEn: 'Circulate Workshop Schedule', date: 'الأسبوع 3 - فبراير 2027', dateEn: 'Week 3 - February 2027', entity: 'قطاع الوكالة المساعدة للتعليم', entityEn: 'Assistant Directorate for Education', entityKey: 'قطاع الوكالة المساعدة للتعليم' },
+            { id: 7, phase: 'المرحلة الثانية: الفرز والتصنيف والدعم التقني والإبداعي', phaseEn: 'Phase 2: Screening, Categorization & Creative Support', task: 'الجلسات والورش التدريبية', taskEn: 'Conduct Workshops & Sessions', date: 'الأسبوع 3 - مارس 2027', dateEn: 'Week 3 - March 2027', entity: 'المركز الإقليمي لتكنولوجيا المعلومات والاتصال', entityEn: 'Regional Centre for ICT', entityKey: 'المركز الإقليمي' },
+            { id: 8, phase: 'المرحلة الثانية: الفرز والتصنيف والدعم التقني والإبداعي', phaseEn: 'Phase 2: Screening, Categorization & Creative Support', task: 'تجميع الأعمال النهائية', taskEn: 'Collect Final Artworks', date: 'الأسبوع 4 - مارس 2027', dateEn: 'Week 4 - March 2027', entity: 'المركز الإقليمي لتكنولوجيا المعلومات والاتصال', entityEn: 'Regional Centre for ICT', entityKey: 'المركز الإقليمي' },
+            { id: 9, phase: 'المرحلة الثالثة: التقييم والتحكيم والتصفيات النهائية', phaseEn: 'Phase 3: Evaluation, Judging & Finals', task: 'تقييم المتأهلين (8 لكل مستوى)', taskEn: 'Evaluate Finalists (8 per Level)', date: 'الأسبوع 3 - أبريل 2027', dateEn: 'Week 3 - April 2027', entity: 'إدارة الأنشطة الطلابية', entityEn: 'Student Activities Directorate', entityKey: 'الأنشطة' },
+            { id: 10, phase: 'المرحلة الثالثة: التقييم والتحكيم والتصفيات النهائية', phaseEn: 'Phase 3: Evaluation, Judging & Finals', task: 'دعوة المدارس المتأهلة', taskEn: 'Invite Qualified Schools', date: 'الأسبوع 3 - أبريل 2027', dateEn: 'Week 3 - April 2027', entity: 'قطاع الوكالة المساعدة للتعليم', entityEn: 'Assistant Directorate for Education', entityKey: 'قطاع الوكالة المساعدة للتعليم' },
+            { id: 11, phase: 'المرحلة الثالثة: التقييم والتحكيم والتصفيات النهائية', phaseEn: 'Phase 3: Evaluation, Judging & Finals', task: 'التكريم وإعلان الفائزين', taskEn: 'Final Judging & Awarding Ceremony', date: 'الأسبوع 4 - أبريل 2027', dateEn: 'Week 4 - April 2027', entity: 'التحكيم المشترك', entityEn: 'Joint Jury Panel', entityKey: 'الكل' }
         ];
 
-        let completedTasks = JSON.parse(localStorage.getItem('completedTasks') || '[]');
+        const translations = {
+            ar: {
+                dir: 'rtl',
+                rcictSub: 'المركز الإقليمي لتكنولوجيا المعلومات والاتصال',
+                badgeTitle: '<i class="fa-solid fa-calendar-days"></i> التقويم الزمني والدليل التنفيذي',
+                titleMainPrefix: 'مسابقة',
+                titleMainHighlight: 'ريشة رقمية',
+                sloganTitle: '"بريشتك الرقمية لمستقبل مستدام"',
+                heroDesc: 'الخطة الزمنية الشاملة والمهام المعتمدة للمسابقة، مقسمة بحسب المراحل الرئيسية ومسؤوليات الجهات المشاركة.',
+                progressTitle: 'نسبة الإنجاز التنفيذي',
+                progressSub: 'تم إنجاز {count} من {total} مهمة',
+                toolsTitle: 'أدوات سريعة',
+                btnPrint: '<i class="fa-solid fa-file-pdf"></i> طباعة / حفظ PDF',
+                btnCalendar: '<i class="fa-solid fa-calendar-plus"></i> إضافة لتقويم Google',
+                btnExport: '<i class="fa-solid fa-file-excel text-emerald-400"></i> تصدير البيانات (Excel/CSV)',
+                fontLabel: 'حجم الخط:',
+                btnZoomIn: '<i class="fa-solid fa-plus text-[10px]"></i> تكبير',
+                btnZoomOut: '<i class="fa-solid fa-minus text-[10px]"></i> تصغير',
+                btnShare: '<i class="fa-solid fa-share-nodes text-orange-400"></i> مشاركة التقويم',
+                supportTitle: 'الدعم والتنسيق:',
+                rcictName: 'المركز الإقليمي لتكنولوجيا المعلومات والاتصال',
+                btnTimeline: '<i class="fa-solid fa-timeline"></i> الجدول الزمني',
+                btnResp: '<i class="fa-solid fa-sitemap"></i> المسؤوليات حسب الجهة',
+                btnAll: '<i class="fa-solid fa-list-check"></i> جميع المهام',
+                filterLabel: 'تصفية حسب:',
+                filterAll: 'الكل',
+                filterRCICT: 'المركز الإقليمي',
+                filterAct: 'الأنشطة',
+                filterEdu: 'قطاع الوكالة المساعدة للتعليم',
+                searchPlaceholder: 'ابحث عن مرحلة أو مهمة...',
+                
+                p1Title: 'المرحلة الأولى: الترشح الأولي',
+                p1Badge: 'أكتوبر 2026 - ديسمبر 2026',
+                p2Title: 'المرحلة الثانية: الفرز والتصنيف والدعم التقني والإبداعي',
+                p2Badge: 'يناير 2027 - مارس 2027',
+                p3Title: 'المرحلة الثالثة: التقييم والتحكيم والتصفيات النهائية',
+                p3Badge: 'أبريل 2027',
+
+                // Tasks translations
+                t1Date: 'الأسبوع 4 - أكتوبر 2026',
+                t1Title: 'إعلان المسابقة للمدارس',
+                t1Desc: 'تعميم إعلان المسابقة رسمياً لكافة المدارس المعنية للبدء في تجهيز الطلبة.',
+                t1Ent: '<i class="fa-solid fa-user-gear mx-1"></i>قطاع الوكالة المساعدة للتعليم',
+
+                t2Date: 'نوفمبر - الأسبوع 3 ديسمبر 2026',
+                t2Title: 'ترشيح طالبين من كل مدرسة',
+                t2Desc: 'اختيار وترشيح طالبين كحد أقصى من كل مدرسة للمشاركة.',
+                t2Ent: '<i class="fa-solid fa-school mx-1"></i>المدارس',
+
+                t3Date: 'الأسبوع 4 - ديسمبر 2026',
+                t3Title: 'تجميع الأعمال الأولية',
+                t3Desc: 'تجميع الأعمال وتخزينها على OneDrive لإرسالها إلى لجنة الفرز.',
+                t3Ent: '<i class="fa-solid fa-cloud-arrow-up mx-1"></i>المركز الإقليمي لتكنولوجيا المعلومات والاتصال',
+
+                t4Date: 'يناير 2027',
+                t4Title: 'فرز الأعمال وتصنيف الطلبة',
+                t4Desc: 'فرز المشاركات وتصنيف الطلبة إلى (متوسط ومتقدم) واعتماد 100 مشارك كحد أقصى.',
+                t4Ent: '<i class="fa-solid fa-filter mx-1"></i>إدارة الأنشطة الطلابية',
+
+                t5Date: 'الأسبوع 1 - فبراير 2027',
+                t5Title: 'إخطار المدارس بالطلبة المقبولين',
+                t5Desc: 'إبلاغ المدارس بالطلبة المقبولين في المرحلة الثانية وإرفاق الجدول التدريبي.',
+                t5Ent: '<i class="fa-solid fa-paper-plane mx-1"></i>المركز الإقليمي لتكنولوجيا المعلومات والاتصال',
+
+                t6Date: 'الأسبوع 3 - فبراير 2027',
+                t6Title: 'تعميم الورش التدريبية',
+                t6Desc: 'تعميم المواعيد للمدارس المعنية والمنسقين.',
+                t6Ent: '<i class="fa-solid fa-bullhorn mx-1"></i>قطاع الوكالة المساعدة للتعليم',
+
+                t7Date: 'الأسبوع 3 - مارس 2027',
+                t7Title: 'الجلسات والورش التدريبية',
+                t7Desc: 'جلسة تعريفية للمنسقين وورش تخصصية للمستويين المتوسط والمتقدم.',
+                t7Ent: '<i class="fa-solid fa-chalkboard-user mx-1"></i>المركز الإقليمي لتكنولوجيا المعلومات والاتصال',
+
+                t8Date: 'الأسبوع 4 - مارس 2027',
+                t8Title: 'تجميع الأعمال النهائية',
+                t8Desc: 'استلام المشاركات النهائية والتصاميم المكتملة ورفعها للجنة التقييم والتحكيم.',
+                t8Ent: '<i class="fa-solid fa-cloud-arrow-up mx-1"></i>المركز الإقليمي لتكنولوجيا المعلومات والاتصال',
+
+                t9Date: 'الأسبوع 3 - أبريل 2027',
+                t9Title: 'تقييم المتأهلين (8 لكل مستوى)',
+                t9Desc: 'تقييم المشاركات وتحديد 8 أعمال متأهلة لكل مستوى (16 عملاً).',
+                t9Ent: '<i class="fa-solid fa-magnifying-glass-chart mx-1"></i>إدارة الأنشطة الطلابية',
+
+                t10Date: 'الأسبوع 3 - أبريل 2027',
+                t10Title: 'دعوة المدارس المتأهلة',
+                t10Desc: 'إرسال دعوات حضور المعرض والاحتفال الختامي لتكريم الطلبة.',
+                t10Ent: '<i class="fa-solid fa-paper-plane mx-1"></i>قطاع الوكالة المساعدة للتعليم',
+
+                t11Date: 'الأسبوع 4 - أبريل 2027',
+                t11Title: 'التكريم وإعلان الفائزين',
+                t11Desc: 'التحكيم النهائي بمقر المركز واستعراض الأعمال في المعرض الختامي.',
+                t11Ent: '<i class="fa-solid fa-trophy mx-1"></i>التحكيم المشترك',
+
+                // Responsibilities tab
+                respRcictTitle: 'المركز الإقليمي لتكنولوجيا المعلومات والاتصال',
+                respRcictSub: 'التنسيق العام للمسابقة',
+                respRcictItems: [
+                    'تجميع الأعمال الأولية ورفعها على OneDrive.',
+                    'إخطار المدارس بالطلبة المقبولين والجدول التدريبي.',
+                    'تنفيذ الجلسة التعريفية والورش للطلبة والمنسقين.',
+                    'المشاركة في التحكيم النهائي واستضافة المعرض الختامي بمقر المركز.'
+                ],
+                respActTitle: 'إدارة الأنشطة الطلابية',
+                respActSub: 'الفرز والتقييم واختيار المتأهلين',
+                respActItems: [
+                    'الفرز الأول: تصنيف الطلبة لـ (متوسط/متقدم) واعتماد 100 مشارك.',
+                    'الفرز الثاني: تقييم الأعمال وتحديد 8 متأهلين لكل مستوى.',
+                    'المرحلة الثالثة: إعداد استمارات التقييم والتحكيم النهائي.'
+                ],
+                respEduTitle: 'قطاع الوكالة المساعدة للتعليم',
+                respEduSub: 'التعاميم والإشراف التنفيذي',
+                respEduItems: [
+                    'تعميم إعلان المسابقة للمدارس المستهدفة.',
+                    'تعميم جدول الورش التدريبية ودعوة الحفل المعرض الختامي.',
+                    'المشاركة في التحكيم النهائي بمقر المركز.'
+                ],
+                respSchTitle: 'المدارس',
+                respSchSub: 'الميدان التربوي والترشيح والمتابعة',
+                respSchItems: [
+                    'ترشيح طالبين من كل مدرسة ومتابعة مشاركتهم.',
+                    'تسليم الأعمال الأولية والنهائية في المواعيد المحددة.',
+                    'متابعة حضور الطلبة المعنيين للورش التدريبية والجلسات التعريفية.'
+                ],
+
+                // Table Headers
+                thTask: 'المهمة والإجراء',
+                thPhase: 'المرحلة',
+                thDate: 'الفترة الزمنية',
+                thEntity: 'الجهة المسؤولة',
+                thStatus: 'الحالة',
+
+                footerText: 'جميع الحقوق محفوظة © المركز الإقليمي لتكنولوجيا المعلومات والاتصال (RCICT) 2026/2027'
+            },
+            en: {
+                dir: 'ltr',
+                rcictSub: 'Regional Centre for Information & Communication Technology',
+                badgeTitle: '<i class="fa-solid fa-calendar-days"></i> Executive Plan & Timeline',
+                titleMainPrefix: 'Competition',
+                titleMainHighlight: 'Digital Feather',
+                sloganTitle: '"With Your Digital Feather for a Sustainable Future"',
+                heroDesc: 'Comprehensive timeline and approved operational tasks for the competition, organized by main phases and institutional responsibilities.',
+                progressTitle: 'Execution Progress',
+                progressSub: '{count} of {total} tasks completed',
+                toolsTitle: 'Quick Tools',
+                btnPrint: '<i class="fa-solid fa-file-pdf"></i> Print / Save PDF',
+                btnCalendar: '<i class="fa-solid fa-calendar-plus"></i> Add to Google Calendar',
+                btnExport: '<i class="fa-solid fa-file-excel text-emerald-400"></i> Export Data (Excel/CSV)',
+                fontLabel: 'Font Size:',
+                btnZoomIn: '<i class="fa-solid fa-plus text-[10px]"></i> Zoom In',
+                btnZoomOut: '<i class="fa-solid fa-minus text-[10px]"></i> Zoom Out',
+                btnShare: '<i class="fa-solid fa-share-nodes text-orange-400"></i> Share Calendar',
+                supportTitle: 'Support & Coordination:',
+                rcictName: 'Regional Centre for Information and Communication Technology',
+                btnTimeline: '<i class="fa-solid fa-timeline"></i> Timeline View',
+                btnResp: '<i class="fa-solid fa-sitemap"></i> By Entity',
+                btnAll: '<i class="fa-solid fa-list-check"></i> All Tasks',
+                filterLabel: 'Filter by:',
+                filterAll: 'All',
+                filterRCICT: 'RCICT',
+                filterAct: 'Activities Dept.',
+                filterEdu: 'Educational Sector',
+                searchPlaceholder: 'Search phase or task...',
+
+                p1Title: 'Phase 1: Initial Nomination',
+                p1Badge: 'October 2026 - December 2026',
+                p2Title: 'Phase 2: Screening, Categorization & Creative Support',
+                p2Badge: 'January 2027 - March 2027',
+                p3Title: 'Phase 3: Evaluation, Judging & Finals',
+                p3Badge: 'April 2027',
+
+                // Tasks translations
+                t1Date: 'Week 4 - October 2026',
+                t1Title: 'Announce Competition to Schools',
+                t1Desc: 'Officially circulate competition announcements to all target schools to begin student preparation.',
+                t1Ent: '<i class="fa-solid fa-user-gear mx-1"></i>Assistant Directorate for Education',
+
+                t2Date: 'Nov - Week 3 Dec 2026',
+                t2Title: 'Nominate 2 Students per School',
+                t2Desc: 'Select and nominate a maximum of two students per school to participate.',
+                t2Ent: '<i class="fa-solid fa-school mx-1"></i>Schools',
+
+                t3Date: 'Week 4 - December 2026',
+                t3Title: 'Collect Initial Entries',
+                t3Desc: 'Collect and store initial entries on OneDrive for submission to the screening panel.',
+                t3Ent: '<i class="fa-solid fa-cloud-arrow-up mx-1"></i>Regional Centre for ICT',
+
+                t4Date: 'January 2027',
+                t4Title: 'Screen Submissions & Categorize',
+                t4Desc: 'Review submissions, categorize students (Intermediate/Advanced), and approve up to 100 participants.',
+                t4Ent: '<i class="fa-solid fa-filter mx-1"></i>Student Activities Directorate',
+
+                t5Date: 'Week 1 - February 2027',
+                t5Title: 'Notify Schools of Accepted Students',
+                t5Desc: 'Inform schools of candidates admitted to Phase 2 along with the training schedule.',
+                t5Ent: '<i class="fa-solid fa-paper-plane mx-1"></i>Regional Centre for ICT',
+
+                t6Date: 'Week 3 - February 2027',
+                t6Title: 'Circulate Workshop Schedule',
+                t6Desc: 'Distribute workshop timings and guidelines to relevant schools and coordinators.',
+                t6Ent: '<i class="fa-solid fa-bullhorn mx-1"></i>Assistant Directorate for Education',
+
+                t7Date: 'Week 3 - March 2027',
+                t7Title: 'Conduct Workshops & Sessions',
+                t7Desc: 'Hold orientation sessions for coordinators and specialized workshops for Intermediate and Advanced levels.',
+                t7Ent: '<i class="fa-solid fa-chalkboard-user mx-1"></i>Regional Centre for ICT',
+
+                t8Date: 'Week 4 - March 2027',
+                t8Title: 'Collect Final Artworks',
+                t8Desc: 'Receive completed designs and submit them to the final judging panel.',
+                t8Ent: '<i class="fa-solid fa-cloud-arrow-up mx-1"></i>Regional Centre for ICT',
+
+                t9Date: 'Week 3 - April 2027',
+                t9Title: 'Evaluate Finalists (8 per Level)',
+                t9Desc: 'Assess submissions and select 8 finalists per level (16 total finalists).',
+                t9Ent: '<i class="fa-solid fa-magnifying-glass-chart mx-1"></i>Student Activities Directorate',
+
+                t10Date: 'Week 3 - April 2027',
+                t10Title: 'Invite Qualified Schools',
+                t10Desc: 'Send formal invitations for attending the final exhibition and awarding ceremony.',
+                t10Ent: '<i class="fa-solid fa-paper-plane mx-1"></i>Assistant Directorate for Education',
+
+                t11Date: 'Week 4 - April 2027',
+                t11Title: 'Final Judging & Awarding Ceremony',
+                t11Desc: 'Execute final jury evaluation at RCICT, exhibit artworks, and announce the winners.',
+                t11Ent: '<i class="fa-solid fa-trophy mx-1"></i>Joint Jury Panel',
+
+                // Responsibilities tab
+                respRcictTitle: 'Regional Centre for Information and Communication Technology (RCICT)',
+                respRcictSub: 'General Coordination & Technical Management',
+                respRcictItems: [
+                    'Collect initial submissions and host files on OneDrive.',
+                    'Notify accepted students and distribute training schedules.',
+                    'Conduct orientation sessions and technical workshops.',
+                    'Participate in final jury evaluation and host the closing exhibition at RCICT.'
+                ],
+                respActTitle: 'Student Activities Directorate',
+                respActSub: 'Screening, Assessment & Selection',
+                respActItems: [
+                    'First Phase: Categorize students (Intermediate/Advanced) and approve 100 participants.',
+                    'Second Phase: Evaluate submissions and select top 8 per category.',
+                    'Third Phase: Prepare evaluation rubrics and participate in final judging.'
+                ],
+                respEduTitle: 'Assistant Directorate for Education',
+                respEduSub: 'Official Circulars & Administrative Supervision',
+                respEduItems: [
+                    'Issue competition circulars to target schools.',
+                    'Circulate workshop schedules and closing ceremony invitations.',
+                    'Participate in final jury panel at RCICT.'
+                ],
+                respSchTitle: 'Schools',
+                respSchSub: 'Student Nomination & Follow-up',
+                respSchItems: [
+                    'Nominate two students per school and monitor their progress.',
+                    'Submit initial and final entries strictly within deadlines.',
+                    'Ensure student attendance for orientation and specialized workshops.'
+                ],
+
+                // Table Headers
+                thTask: 'Task / Action Item',
+                thPhase: 'Phase',
+                thDate: 'Timeline',
+                thEntity: 'Responsible Entity',
+                thStatus: 'Status',
+
+                footerText: 'All Rights Reserved © Regional Centre for Information and Communication Technology (RCICT) 2026/2027'
+            }
+        };
+
+        let currentLang = 'ar';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+
+            document.documentElement.setAttribute('dir', t.dir);
+            document.documentElement.setAttribute('lang', lang);
+
+            // Ticker translations
+            if (document.getElementById('ticker-badge')) {
+                document.getElementById('ticker-badge').innerText = lang === 'ar' ? 'آخر الأخبار' : 'LATEST NEWS';
+            }
+            if (document.getElementById('ticker-text')) {
+                const featherIcon = '<i class="fa-solid fa-feather-pointed drawing-feather text-sm"></i>';
+                const tickerContent = lang === 'ar' 
+                    ? `${featherIcon} مسابقة الرسم الرقمي الإبداعي "ريشة رقمية" لطلبة المدارس الحكومية بمملكة البحرين <span class="mx-5 text-orange-400 font-extrabold">•</span> تم إطلاق مسابقة ريشة رقمية في الأسبوع الرابع من أكتوبر 2026 لجميع طلبة المدارس الحكومية <span class="mx-5 text-orange-400 font-extrabold">•</span> يتم استقبال الترشيحات الأولية حتى الأسبوع الثالث من ديسمبر 2026` 
+                    : `${featherIcon} Creative Digital Painting Competition "Digital Feather" for Government School Students in Bahrain <span class="mx-5 text-orange-400 font-extrabold">•</span> Digital Feather Competition launched in Week 4 of October 2026 for all government school students <span class="mx-5 text-orange-400 font-extrabold">•</span> Initial nominations are accepted until Week 3 of December 2026`;
+                document.getElementById('ticker-text').innerHTML = tickerContent;
+                if (document.getElementById('ticker-text-dup')) {
+                    document.getElementById('ticker-text-dup').innerHTML = tickerContent;
+                }
+            }
+
+            // Toggle active lang buttons
+            document.getElementById('lang-ar').className = lang === 'ar' ? 'text-white font-bold cursor-pointer' : 'text-slate-400 hover:text-white transition cursor-pointer';
+            document.getElementById('lang-en').className = lang === 'en' ? 'text-white font-bold cursor-pointer' : 'text-slate-400 hover:text-white transition cursor-pointer';
+
+            // Top Header & Hero
+            document.getElementById('badge-title').innerHTML = t.badgeTitle;
+            document.getElementById('title-main-prefix').innerText = t.titleMainPrefix;
+            document.getElementById('title-main-highlight').innerText = t.titleMainHighlight;
+            document.getElementById('slogan-title').innerText = t.sloganTitle;
+            document.getElementById('hero-desc').innerText = t.heroDesc;
+
+            // Sidebar Controls
+            document.getElementById('progress-title-txt').innerText = t.progressTitle;
+            document.getElementById('quick-tools-txt').innerText = t.toolsTitle;
+            document.getElementById('btn-print').innerHTML = t.btnPrint;
+            document.getElementById('btn-calendar').innerHTML = t.btnCalendar;
+            document.getElementById('btn-export').innerHTML = t.btnExport;
+            document.getElementById('font-size-label').innerText = t.fontLabel;
+            document.getElementById('btn-zoom-in').innerHTML = t.btnZoomIn;
+            document.getElementById('btn-zoom-out').innerHTML = t.btnZoomOut;
+            document.getElementById('btn-share').innerHTML = t.btnShare;
+            document.getElementById('support-title-txt').innerText = t.supportTitle;
+            document.getElementById('support-rcict-name').innerText = t.rcictName;
+
+            // Navigation & Filters
+            document.getElementById('btn-timeline').innerHTML = t.btnTimeline;
+            document.getElementById('btn-responsibilities').innerHTML = t.btnResp;
+            document.getElementById('btn-all').innerHTML = t.btnAll;
+            document.getElementById('filter-label').innerText = t.filterLabel;
+            document.getElementById('flt-all').innerText = t.filterAll;
+            document.getElementById('flt-rcict').innerText = t.filterRCICT;
+            document.getElementById('flt-act').innerText = t.filterAct;
+            document.getElementById('flt-edu').innerText = t.filterEdu;
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+
+            // Phases Headings
+            document.getElementById('p1-title').innerText = t.p1Title;
+            document.getElementById('p1-badge').innerText = t.p1Badge;
+            document.getElementById('p2-title').innerText = t.p2Title;
+            document.getElementById('p2-badge').innerText = t.p2Badge;
+            document.getElementById('p3-title').innerText = t.p3Title;
+            document.getElementById('p3-badge').innerText = t.p3Badge;
+
+            // Individual Card Elements (1 to 11)
+            for (let i = 1; i <= 11; i++) {
+                if(document.getElementById(`t${i}-date`)) document.getElementById(`t${i}-date`).innerText = t[`t${i}Date`];
+                if(document.getElementById(`t${i}-title`)) document.getElementById(`t${i}-title`).innerText = t[`t${i}Title`];
+                if(document.getElementById(`t${i}-desc`)) document.getElementById(`t${i}-desc`).innerText = t[`t${i}Desc`];
+                if(document.getElementById(`t${i}-ent`)) document.getElementById(`t${i}-ent`).innerHTML = t[`t${i}Ent`];
+            }
+
+            // Responsibilities View Elements
+            document.getElementById('resp-rcict-title').innerText = t.respRcictTitle;
+            document.getElementById('resp-rcict-sub').innerText = t.respRcictSub;
+            populateList('resp-rcict-list', t.respRcictItems, 'text-orange-400');
+
+            document.getElementById('resp-act-title').innerText = t.respActTitle;
+            document.getElementById('resp-act-sub').innerText = t.respActSub;
+            populateList('resp-act-list', t.respActItems, 'text-sky-400');
+
+            document.getElementById('resp-edu-title').innerText = t.respEduTitle;
+            document.getElementById('resp-edu-sub').innerText = t.respEduSub;
+            populateList('resp-edu-list', t.respEduItems, 'text-teal-400');
+
+            document.getElementById('resp-sch-title').innerText = t.respSchTitle;
+            document.getElementById('resp-sch-sub').innerText = t.respSchSub;
+            populateList('resp-sch-list', t.respSchItems, 'text-slate-400');
+
+            // Table Headers
+            document.getElementById('th-task').innerText = t.thTask;
+            document.getElementById('th-phase').innerText = t.thPhase;
+            document.getElementById('th-date').innerText = t.thDate;
+            document.getElementById('th-entity').innerText = t.thEntity;
+            document.getElementById('th-status').innerText = t.thStatus;
+
+            // Footer
+            document.getElementById('footer-text').innerText = t.footerText;
+
+            updateProgress();
+            populateTable(allTasks);
+        }
+
+        function populateList(listId, items, iconColorClass) {
+            const ul = document.getElementById(listId);
+            if (!ul) return;
+            ul.innerHTML = '';
+            items.forEach(itemText => {
+                const li = document.createElement('li');
+                li.className = 'flex items-start gap-2';
+                li.innerHTML = `<i class="fa-solid fa-check ${iconColorClass} mt-0.5"></i> <span>${itemText}</span>`;
+                ul.appendChild(li);
+            });
+        }
 
         function updateProgress() {
             const total = allTasks.length;
@@ -562,7 +1118,9 @@
 
             document.getElementById('progressText').innerText = `${percentage}%`;
             document.getElementById('progressBar').style.width = `${percentage}%`;
-            document.getElementById('progressSubtext').innerText = `تم إنجاز ${completedCount} من ${total} مهمة`;
+
+            const subPattern = translations[currentLang].progressSub;
+            document.getElementById('progressSubtext').innerText = subPattern.replace('{count}', completedCount).replace('{total}', total);
 
             allTasks.forEach(task => {
                 const card = document.getElementById(`card-task-${task.id}`);
@@ -593,19 +1151,25 @@
 
         function populateTable(tasks) {
             const tbody = document.getElementById('tasksTableBody');
+            if (!tbody) return;
             tbody.innerHTML = '';
             tasks.forEach(task => {
                 const tr = document.createElement('tr');
                 const isDone = completedTasks.includes(task.id);
+                const taskTitle = currentLang === 'ar' ? task.task : task.taskEn;
+                const phaseTitle = currentLang === 'ar' ? task.phase : task.phaseEn;
+                const dateTitle = currentLang === 'ar' ? task.date : task.dateEn;
+                const entityTitle = currentLang === 'ar' ? task.entity : task.entityEn;
+
                 tr.className = `hover:bg-slate-800/40 transition duration-150 ${isDone ? 'opacity-50 line-through' : ''}`;
                 tr.innerHTML = `
-                    <td class="px-4 py-3 text-slate-200 font-medium">${task.task}</td>
-                    <td class="px-4 py-3 font-bold text-orange-400 whitespace-nowrap">${task.phase}</td>
-                    <td class="px-4 py-3 text-slate-400 whitespace-nowrap">${task.date}</td>
-                    <td class="px-4 py-3"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 border border-slate-700 text-slate-300">${task.entity}</span></td>
+                    <td class="px-4 py-3 text-slate-200 font-medium">${taskTitle}</td>
+                    <td class="px-4 py-3 font-bold text-orange-400 whitespace-nowrap">${phaseTitle}</td>
+                    <td class="px-4 py-3 text-slate-400 whitespace-nowrap">${dateTitle}</td>
+                    <td class="px-4 py-3"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 border border-slate-700 text-slate-300">${entityTitle}</span></td>
                     <td class="px-4 py-3 no-print">
                         <button onclick="toggleTask(${task.id})" class="px-2 py-1 rounded text-[11px] font-bold ${isDone ? 'bg-teal-500/20 text-teal-300 border border-teal-500/30' : 'bg-slate-800 text-slate-400 border border-slate-700'}">
-                            ${isDone ? '<i class="fa-solid fa-check ml-1"></i>مكتملة' : 'معلقة'}
+                            ${isDone ? '<i class="fa-solid fa-check mx-1"></i>' + (currentLang === 'ar' ? 'مكتملة' : 'Done') : (currentLang === 'ar' ? 'معلقة' : 'Pending')}
                         </button>
                     </td>
                 `;
@@ -613,112 +1177,288 @@
             });
         }
 
+        // Initialize view
+        window.onload = function() {
+            populateTable(allTasks);
+            updateProgress();
+            initInteractiveCanvas();
+        };
+
+        /* Interactive Canvas Particle & Mouse Glow System */
+        function initInteractiveCanvas() {
+            const canvas = document.getElementById('interactive-pixel-canvas');
+            const header = document.getElementById('hero-header');
+            if (!canvas || !header) return;
+
+            const ctx = canvas.getContext('2d');
+            let width = (canvas.width = header.offsetWidth);
+            let height = (canvas.height = header.offsetHeight);
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = header.offsetWidth;
+                height = canvas.height = header.offsetHeight;
+            });
+
+            // Interactive mouse tracking
+            let mouse = { x: -1000, y: -1000, active: false };
+
+            header.addEventListener('mousemove', (e) => {
+                const rect = header.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+                mouse.active = true;
+            });
+
+            header.addEventListener('mouseleave', () => {
+                mouse.active = false;
+            });
+
+            // Additional dynamic interactive pixels
+            const pixelColors = ['#f26522', '#14b8a6', '#38bdf8', '#f59e0b'];
+            const canvasPixels = [];
+            const count = Math.floor((width * height) / 9000); // Reduced density for cleaner look
+
+            for (let i = 0; i < count; i++) {
+                canvasPixels.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 6 + 3,
+                    color: pixelColors[Math.floor(Math.random() * pixelColors.length)],
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: (Math.random() - 0.5) * 0.8,
+                    alpha: Math.random() * 0.6 + 0.2
+                });
+            }
+
+            function animateCanvas() {
+                ctx.clearRect(0, 0, width, height);
+
+                // Draw Interactive Hover Glow Grid Pattern around Mouse
+                if (mouse.active) {
+                    const radius = 120;
+                    const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 10, mouse.x, mouse.y, radius);
+                    gradient.addColorStop(0, 'rgba(242, 101, 34, 0.25)');
+                    gradient.addColorStop(0.5, 'rgba(20, 184, 166, 0.12)');
+                    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(mouse.x, mouse.y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Render & Update Canvas Particles
+                canvasPixels.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    // Bounce from edges
+                    if (p.x < 0 || p.x > width) p.vx *= -1;
+                    if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                    // Mouse Interaction - push pixels slightly away or glow
+                    if (mouse.active) {
+                        const dx = mouse.x - p.x;
+                        const dy = mouse.y - p.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 100) {
+                            ctx.fillStyle = '#ffffff';
+                            ctx.shadowColor = p.color;
+                            ctx.shadowBlur = 12;
+                        } else {
+                            ctx.fillStyle = p.color;
+                            ctx.shadowColor = p.color;
+                            ctx.shadowBlur = 6;
+                        }
+                    } else {
+                        ctx.fillStyle = p.color;
+                        ctx.shadowColor = p.color;
+                        ctx.shadowBlur = 6;
+                    }
+
+                    ctx.globalAlpha = p.alpha;
+                    ctx.fillRect(p.x, p.y, p.size, p.size);
+                    ctx.shadowBlur = 0; // Reset shadow for performance
+                });
+
+                requestAnimationFrame(animateCanvas);
+            }
+
+            animateCanvas();
+        }
+
+        /* ==========================================
+           QUICK TOOLS FUNCTIONS
+        ========================================== */
+
+        // 1. Toast Alert Helper
+        function showToast(msg) {
+            const toast = document.getElementById('toast-message');
+            const toastText = document.getElementById('toast-text');
+            if (!toast || !toastText) return;
+            toastText.innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // 2. View Switcher Function
         function switchView(viewName) {
-            const timelineView = document.getElementById('view-timeline');
-            const responsibilitiesView = document.getElementById('view-responsibilities');
-            const allView = document.getElementById('view-all');
+            const viewTimeline = document.getElementById('view-timeline');
+            const viewResponsibilities = document.getElementById('view-responsibilities');
+            const viewAll = document.getElementById('view-all');
 
             const btnTimeline = document.getElementById('btn-timeline');
             const btnResponsibilities = document.getElementById('btn-responsibilities');
             const btnAll = document.getElementById('btn-all');
 
-            const activeClass = "px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 bg-orange-600 text-white shadow-lg shadow-orange-600/30";
-            const inactiveClass = "px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/60";
+            // Hide all
+            viewTimeline.classList.add('hidden');
+            viewResponsibilities.classList.add('hidden');
+            viewAll.classList.add('hidden');
 
-            [btnTimeline, btnResponsibilities, btnAll].forEach(btn => btn.className = inactiveClass);
-            [timelineView, responsibilitiesView, allView].forEach(v => v.classList.add('hidden'));
+            // Reset button styles
+            const inactiveClass = "px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/60";
+            const activeClass = "px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 bg-orange-600 text-white shadow-lg shadow-orange-600/30";
+
+            btnTimeline.className = inactiveClass;
+            btnResponsibilities.className = inactiveClass;
+            btnAll.className = inactiveClass;
 
             if (viewName === 'timeline') {
-                timelineView.classList.remove('hidden');
+                viewTimeline.classList.remove('hidden');
                 btnTimeline.className = activeClass;
             } else if (viewName === 'responsibilities') {
-                responsibilitiesView.classList.remove('hidden');
+                viewResponsibilities.classList.remove('hidden');
                 btnResponsibilities.className = activeClass;
             } else if (viewName === 'all') {
-                allView.classList.remove('hidden');
+                viewAll.classList.remove('hidden');
                 btnAll.className = activeClass;
             }
         }
 
-        function filterByEntity(entity, btnElement) {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.className = "filter-btn text-xs px-2.5 py-1 rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 transition";
-            });
-            if (btnElement) btnElement.className = "filter-btn text-xs px-2.5 py-1 rounded-lg border border-orange-500/40 bg-orange-500/20 text-orange-300 font-semibold transition";
-
-            let filteredTasks = entity === 'all' ? allTasks : allTasks.filter(t => t.entityKey.includes(entity) || t.entity.includes(entity));
-            populateTable(filteredTasks);
-
-            document.querySelectorAll('.card-item').forEach(card => {
-                const cardEntity = card.getAttribute('data-entity');
-                card.style.display = (entity === 'all' || cardEntity.includes(entity) || cardEntity === 'الكل') ? 'block' : 'none';
-            });
-        }
-
+        // 3. Search Handler
         function handleSearch() {
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            const filteredTasks = allTasks.filter(t => t.task.toLowerCase().includes(query) || t.phase.toLowerCase().includes(query) || t.entity.toLowerCase().includes(query));
-            populateTable(filteredTasks);
+            const cards = document.querySelectorAll('.card-item');
 
-            document.querySelectorAll('.card-item').forEach(card => {
-                card.style.display = card.innerText.toLowerCase().includes(query) ? 'block' : 'none';
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
             });
+
+            // Filter Table
+            const filteredTasks = allTasks.filter(task => {
+                const title = currentLang === 'ar' ? task.task : task.taskEn;
+                const phase = currentLang === 'ar' ? task.phase : task.phaseEn;
+                const entity = currentLang === 'ar' ? task.entity : task.entityEn;
+                return title.toLowerCase().includes(query) || phase.toLowerCase().includes(query) || entity.toLowerCase().includes(query);
+            });
+            populateTable(filteredTasks);
         }
 
+        // 4. Entity Filter Handler
+        function filterByEntity(entityKey, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.className = 'filter-btn text-xs px-2.5 py-1 rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 transition';
+            });
+            btn.className = 'filter-btn text-xs px-2.5 py-1 rounded-lg border border-orange-500/40 bg-orange-500/20 text-orange-300 font-semibold transition';
+
+            const cards = document.querySelectorAll('.card-item');
+            cards.forEach(card => {
+                const cardEntity = card.getAttribute('data-entity');
+                if (entityKey === 'all' || cardEntity.includes(entityKey) || entityKey.includes(cardEntity)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const filteredTasks = entityKey === 'all' 
+                ? allTasks 
+                : allTasks.filter(t => t.entityKey.includes(entityKey) || entityKey.includes(t.entityKey));
+            populateTable(filteredTasks);
+        }
+
+        // 5. Add to Google Calendar
         function addToCalendar() {
-            const title = encodeURIComponent("مسابقة ريشة رقمية - الخطة الزمنية");
-            const details = encodeURIComponent("تابع المهام والجدول الزمني لمسابقة ريشة رقمية 2026/2027.");
-            const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=20261001T080000Z/20270430T160000Z`;
-            window.open(googleCalendarUrl, '_blank');
+            const title = encodeURIComponent(currentLang === 'ar' ? 'مسابقة ريشة رقمية - الخطة التنفيذية 2026/2027' : 'Digital Feather Competition Executive Timeline');
+            const details = encodeURIComponent(currentLang === 'ar' ? 'متابعة مراحل ومواعيد مسابقة ريشة رقمية برعاية المركز الإقليمي لتكنولوجيا المعلومات والاتصال.' : 'Digital Feather Competition timeline and deliverables.');
+            const location = encodeURIComponent('المركز الإقليمي لتكنولوجيا المعلومات والاتصال - مملكة البحرين');
+            const dates = '20261025T080000Z/20270430T140000Z'; // Overall Competition Window
+
+            const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${dates}`;
+            window.open(calendarUrl, '_blank');
         }
 
+        // 6. Export to CSV / Excel
         function exportToCSV() {
-            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
-            csvContent += "المرحلة,المهمة,الفترة الزمنية,الجهة المسؤولة,الحالة\n";
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // UTF-8 BOM for Arabic support
+            csvContent += (currentLang === 'ar' ? "رقم المهمة,المرحلة,المهمة,الفترة الزمنية,الجهة المسؤولة,الحالة\n" : "Task ID,Phase,Task,Timeline,Responsible Entity,Status\n");
 
-            allTasks.forEach(task => {
-                const status = completedTasks.includes(task.id) ? "مكتملة" : "معلقة";
-                csvContent += `"${task.phase}","${task.task}","${task.date}","${task.entity}","${status}"\n`;
+            allTasks.forEach(t => {
+                const isDone = completedTasks.includes(t.id);
+                const statusStr = isDone ? (currentLang === 'ar' ? 'مكتملة' : 'Completed') : (currentLang === 'ar' ? 'معلقة' : 'Pending');
+                const phase = currentLang === 'ar' ? t.phase : t.phaseEn;
+                const task = currentLang === 'ar' ? t.task : t.taskEn;
+                const date = currentLang === 'ar' ? t.date : t.dateEn;
+                const entity = currentLang === 'ar' ? t.entity : t.entityEn;
+
+                csvContent += `"${t.id}","${phase}","${task}","${date}","${entity}","${statusStr}"\n`;
             });
 
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "التقويم_الزمني_لمسابقة_ريشة_رقمية.csv");
+            link.setAttribute("download", `Digital_Feather_Timeline_${currentLang}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+
+            showToast(currentLang === 'ar' ? 'تم تصدير جدول المهام بنجاح!' : 'Tasks exported successfully!');
         }
 
-        let currentZoom = 100;
-        function changeFontSize(delta) {
-            currentZoom += delta * 5;
-            if (currentZoom < 85) currentZoom = 85;
-            if (currentZoom > 120) currentZoom = 120;
-            document.body.style.zoom = `${currentZoom}%`;
+        // 7. Font Resizing Logic
+        let currentFontScale = 1;
+        function changeFontSize(direction) {
+            if (direction === 1 && currentFontScale < 1.3) {
+                currentFontScale += 0.08;
+            } else if (direction === -1 && currentFontScale > 0.85) {
+                currentFontScale -= 0.08;
+            }
+            document.querySelectorAll('p, h3, h2, span, td, button').forEach(el => {
+                el.style.zoom = currentFontScale;
+            });
         }
 
+        // 8. Share Calendar Link
         function shareCalendar() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'التقويم الزمني والدليل التنفيذي لمسابقة ريشة رقمية',
-                    url: window.location.href
-                }).catch(() => {});
+            const dummyUrl = window.location.href;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(dummyUrl).then(() => {
+                    showToast(currentLang === 'ar' ? 'تم نسخ رابط التقويم بنجاح!' : 'Calendar link copied to clipboard!');
+                }).catch(() => {
+                    executeFallbackCopy(dummyUrl);
+                });
             } else {
-                const dummy = document.createElement('input');
-                document.body.appendChild(dummy);
-                dummy.value = window.location.href;
-                dummy.select();
-                document.execCommand('copy');
-                document.body.removeChild(dummy);
-                alert('تم نسخ رابط الصفحة إلى الحافظة بنجاح!');
+                executeFallbackCopy(dummyUrl);
             }
         }
 
-        window.onload = function() {
-            populateTable(allTasks);
-            updateProgress();
-        };
+        function executeFallbackCopy(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            showToast(currentLang === 'ar' ? 'تم نسخ رابط التقويم بنجاح!' : 'Calendar link copied to clipboard!');
+        }
     </script>
 </body>
 </html>
