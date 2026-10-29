@@ -771,8 +771,8 @@
     <!-- Firebase Cloud Database Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Global Firebase Configuration and Initialization
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'digital-feather-rcict-2026';
@@ -789,10 +789,10 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Global public document path for all users
+        // Strict Path for Firestore Rule 1 compliance
         const publicDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'competition_state', 'tasks_status');
 
-        // Authenticate User & Register Real-time Listener immediately
+        // Authenticate & Register Listener
         async function initAuthAndSync() {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -801,15 +801,10 @@
                     await signInAnonymously(auth);
                 }
             } catch (err) {
-                console.warn("Auth note (continuing with sync):", err);
+                console.warn("Auth note:", err);
             }
-            
-            // Subscribe to cloud changes immediately
-            subscribeToCloudSync();
-        }
 
-        // Real-time synchronization for all connected devices
-        function subscribeToCloudSync() {
+            // Real-time listener for all viewers
             onSnapshot(publicDocRef, (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
@@ -827,13 +822,16 @@
             });
         }
 
-        // Save progress directly to cloud database
+        // Global save function with fallback
         window.saveTasksToCloud = async function(updatedTasks) {
             try {
                 await setDoc(publicDocRef, {
                     completedTasks: updatedTasks,
                     lastUpdated: new Date().toISOString()
                 }, { merge: true });
+                if (window.showToast) {
+                    window.showToast(window.currentLang === 'ar' ? 'تم تحديث الإنجاز سحابياً للجميع!' : 'Progress updated live for all viewers!');
+                }
             } catch (err) {
                 console.error("Error saving to cloud:", err);
             }
