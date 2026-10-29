@@ -741,6 +741,16 @@
                                 </thead>
                                 <tbody id="tasksTableBody" class="divide-y divide-slate-800/60">
                                     <!-- Populated dynamically via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
     <!-- Modal: Admin Password Prompt -->
     <div id="admin-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="glass-panel p-6 rounded-2xl border border-orange-500/30 max-w-sm w-full space-y-4 text-center">
@@ -749,7 +759,7 @@
             </div>
             <h3 class="text-lg font-bold text-white">تسجيل دخول المسؤول (Admin)</h3>
             <p class="text-xs text-slate-400">أدخل كلمة المرور لتفعيل صلاحية تعديل وتحديث نسبة الإنجاز للجميع.</p>
-            <input type="password" id="admin-pass-input" placeholder="كلمة المرور..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-center text-white focus:outline-none focus:border-orange-500">
+            <input type="password" id="admin-pass-input" placeholder="كلمة المرور..." onkeydown="if(event.key==='Enter') verifyAdminPass()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-center text-white focus:outline-none focus:border-orange-500">
             <p id="admin-error-msg" class="text-xs text-red-400 hidden">كلمة المرور غير صحيحة!</p>
             <div class="flex gap-2 pt-2">
                 <button onclick="verifyAdminPass()" class="flex-1 py-2 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl text-xs transition">تأكيد</button>
@@ -1690,4 +1700,3 @@
     </script>
 </body>
 </html>
-                                
