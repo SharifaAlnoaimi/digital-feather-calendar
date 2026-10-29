@@ -127,6 +127,9 @@
             body {
                 background-color: #ffffff !important;
             }
+            .no-print {
+                display: none !important;
+            }
         }
 
         /* Ticker Animation Fixes */
@@ -197,8 +200,10 @@
                          alt="Ministry of Education Bahrain Logo" 
                          class="h-24 sm:h-32 md:h-36 w-auto object-contain">
                 </div>
-            <!-- Ticker / Moving News Bar at the bottom of the white area (Slightly Reduced Height) -->
-            <div class="w-full bg-slate-900 text-slate-100 rounded-md mb-0.5 py-1 px-2 flex items-center overflow-hidden border border-slate-700/50 shadow-inner">
+            </div>
+
+            <!-- Ticker / Moving News Bar at the bottom of the white area -->
+            <div class="w-full bg-slate-900 text-slate-100 rounded-md mb-2 py-1 px-2 flex items-center overflow-hidden border border-slate-700/50 shadow-inner">
                 <div class="bg-orange-500 text-white text-[10px] font-black px-2.5 py-1 rounded flex items-center gap-1 shrink-0 z-20 shadow">
                     <i class="fa-solid fa-bullhorn text-[11px] animate-bounce"></i>
                     <span id="ticker-badge">آخر الأخبار</span>
@@ -254,7 +259,7 @@
                     </div>
                 </div>
 
-                <!-- Main Title without Feather logo -->
+                <!-- Main Title -->
                 <div class="flex items-center justify-center gap-4 sm:gap-6 flex-wrap">
                     <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-tight">
                         <span id="title-main-prefix">مسابقة</span> <span id="title-main-highlight" class="text-white">ريشة رقمية</span>
@@ -789,10 +794,6 @@
                 btnZoomIn: '<i class="fa-solid fa-plus text-[10px]"></i> تكبير',
                 btnZoomOut: '<i class="fa-solid fa-minus text-[10px]"></i> تصغير',
                 btnShare: '<i class="fa-solid fa-share-nodes text-orange-400"></i> مشاركة التقويم',
-                importantFilesTitle: 'ملفات هامة',
-                fileGuide: 'دليل المسابقة',
-                fileAnnounce: 'إعلان المسابقة',
-                fileForm: 'استمارة الترشح الأولي للمسابقة',
                 supportTitle: 'الدعم والتنسيق:',
                 rcictName: 'المركز الإقليمي لتكنولوجيا المعلومات والاتصال',
                 btnTimeline: '<i class="fa-solid fa-timeline"></i> الجدول الزمني',
@@ -930,10 +931,6 @@
                 btnZoomIn: '<i class="fa-solid fa-plus text-[10px]"></i> Zoom In',
                 btnZoomOut: '<i class="fa-solid fa-minus text-[10px]"></i> Zoom Out',
                 btnShare: '<i class="fa-solid fa-share-nodes text-orange-400"></i> Share Calendar',
-                importantFilesTitle: 'Important Files',
-                fileGuide: 'Competition Guide',
-                fileAnnounce: 'Competition Announcement',
-                fileForm: 'Initial Nomination Form',
                 supportTitle: 'Support & Coordination:',
                 rcictName: 'Regional Centre for Information and Communication Technology',
                 btnTimeline: '<i class="fa-solid fa-timeline"></i> Timeline View',
@@ -1100,10 +1097,6 @@
             document.getElementById('btn-zoom-in').innerHTML = t.btnZoomIn;
             document.getElementById('btn-zoom-out').innerHTML = t.btnZoomOut;
             document.getElementById('btn-share').innerHTML = t.btnShare;
-            if(document.getElementById('important-files-txt')) document.getElementById('important-files-txt').innerText = t.importantFilesTitle;
-            if(document.getElementById('file-guide-txt')) document.getElementById('file-guide-txt').innerText = t.fileGuide;
-            if(document.getElementById('file-announce-txt')) document.getElementById('file-announce-txt').innerText = t.fileAnnounce;
-            if(document.getElementById('file-form-txt')) document.getElementById('file-form-txt').innerText = t.fileForm;
             document.getElementById('support-title-txt').innerText = t.supportTitle;
             document.getElementById('support-rcict-name').innerText = t.rcictName;
 
@@ -1126,30 +1119,30 @@
             document.getElementById('p3-title').innerText = t.p3Title;
             document.getElementById('p3-badge').innerText = t.p3Badge;
 
-            // Individual Card Elements (1 to 11)
+            // Update individual tasks texts
             for (let i = 1; i <= 11; i++) {
-                if(document.getElementById(`t${i}-date`)) document.getElementById(`t${i}-date`).innerText = t[`t${i}Date`];
-                if(document.getElementById(`t${i}-title`)) document.getElementById(`t${i}-title`).innerText = t[`t${i}Title`];
-                if(document.getElementById(`t${i}-desc`)) document.getElementById(`t${i}-desc`).innerText = t[`t${i}Desc`];
-                if(document.getElementById(`t${i}-ent`)) document.getElementById(`t${i}-ent`).innerHTML = t[`t${i}Ent`];
+                if (document.getElementById(`t${i}-date`)) document.getElementById(`t${i}-date`).innerText = t[`t${i}Date`];
+                if (document.getElementById(`t${i}-title`)) document.getElementById(`t${i}-title`).innerText = t[`t${i}Title`];
+                if (document.getElementById(`t${i}-desc`)) document.getElementById(`t${i}-desc`).innerText = t[`t${i}Desc`];
+                if (document.getElementById(`t${i}-ent`)) document.getElementById(`t${i}-ent`).innerHTML = t[`t${i}Ent`];
             }
 
-            // Responsibilities View Elements
+            // Responsibilities section
             document.getElementById('resp-rcict-title').innerText = t.respRcictTitle;
             document.getElementById('resp-rcict-sub').innerText = t.respRcictSub;
-            populateList('resp-rcict-list', t.respRcictItems, 'text-orange-400');
+            document.getElementById('resp-rcict-list').innerHTML = t.respRcictItems.map(item => `<li class="flex items-start gap-2"><i class="fa-solid fa-check text-orange-400 mt-0.5"></i> <span>${item}</span></li>`).join('');
 
             document.getElementById('resp-act-title').innerText = t.respActTitle;
             document.getElementById('resp-act-sub').innerText = t.respActSub;
-            populateList('resp-act-list', t.respActItems, 'text-sky-400');
+            document.getElementById('resp-act-list').innerHTML = t.respActItems.map(item => `<li class="flex items-start gap-2"><i class="fa-solid fa-check text-sky-400 mt-0.5"></i> <span>${item}</span></li>`).join('');
 
             document.getElementById('resp-edu-title').innerText = t.respEduTitle;
             document.getElementById('resp-edu-sub').innerText = t.respEduSub;
-            populateList('resp-edu-list', t.respEduItems, 'text-teal-400');
+            document.getElementById('resp-edu-list').innerHTML = t.respEduItems.map(item => `<li class="flex items-start gap-2"><i class="fa-solid fa-check text-teal-400 mt-0.5"></i> <span>${item}</span></li>`).join('');
 
             document.getElementById('resp-sch-title').innerText = t.respSchTitle;
             document.getElementById('resp-sch-sub').innerText = t.respSchSub;
-            populateList('resp-sch-list', t.respSchItems, 'text-slate-400');
+            document.getElementById('resp-sch-list').innerHTML = t.respSchItems.map(item => `<li class="flex items-start gap-2"><i class="fa-solid fa-check text-slate-400 mt-0.5"></i> <span>${item}</span></li>`).join('');
 
             // Table Headers
             document.getElementById('th-task').innerText = t.thTask;
@@ -1161,81 +1154,104 @@
             // Footer
             document.getElementById('footer-text').innerText = t.footerText;
 
-            updateProgress();
-            populateTable(allTasks);
+            // Update Table View Data
+            renderTasksTable();
+            updateProgressBar();
         }
 
-        function populateList(listId, items, iconColorClass) {
-            const ul = document.getElementById(listId);
-            if (!ul) return;
-            ul.innerHTML = '';
-            items.forEach(itemText => {
-                const li = document.createElement('li');
-                li.className = 'flex items-start gap-2';
-                li.innerHTML = `<i class="fa-solid fa-check ${iconColorClass} mt-0.5"></i> <span>${itemText}</span>`;
-                ul.appendChild(li);
-            });
-        }
-
-        function updateProgress() {
-            const total = allTasks.length;
-            const completedCount = completedTasks.length;
-            const percentage = Math.round((completedCount / total) * 100);
-
-            document.getElementById('progressText').innerText = `${percentage}%`;
-            document.getElementById('progressBar').style.width = `${percentage}%`;
-
-            const subPattern = translations[currentLang].progressSub;
-            document.getElementById('progressSubtext').innerText = subPattern.replace('{count}', completedCount).replace('{total}', total);
-
-            allTasks.forEach(task => {
-                const card = document.getElementById(`card-task-${task.id}`);
-                const checkbox = document.getElementById(`check-task-${task.id}`);
-                const isDone = completedTasks.includes(task.id);
-
-                if (checkbox) checkbox.checked = isDone;
-                if (card) {
-                    if (isDone) {
-                        card.classList.add('task-done');
-                    } else {
-                        card.classList.remove('task-done');
-                    }
-                }
-            });
-        }
-
+        // Checkbox State Toggle
         function toggleTask(id) {
-            if (completedTasks.includes(id)) {
-                completedTasks = completedTasks.filter(tId => tId !== id);
+            const index = completedTasks.indexOf(id);
+            if (index > -1) {
+                completedTasks.splice(index, 1);
             } else {
                 completedTasks.push(id);
             }
             localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
-            updateProgress();
-            populateTable(allTasks);
+            
+            // Sync Card Visual state
+            const card = document.getElementById(`card-task-${id}`);
+            const check = document.getElementById(`check-task-${id}`);
+            if (card) {
+                if (completedTasks.includes(id)) {
+                    card.classList.add('task-done');
+                } else {
+                    card.classList.remove('task-done');
+                }
+            }
+            if (check) check.checked = completedTasks.includes(id);
+
+            updateProgressBar();
+            renderTasksTable();
         }
 
-        function populateTable(tasks) {
+        function updateProgressBar() {
+            const total = allTasks.length;
+            const count = completedTasks.length;
+            const percent = Math.round((count / total) * 100);
+
+            document.getElementById('progressBar').style.width = `${percent}%`;
+            document.getElementById('progressText').innerText = `${percent}%`;
+            
+            const t = translations[currentLang];
+            const subtext = t.progressSub.replace('{count}', count).replace('{total}', total);
+            document.getElementById('progressSubtext').innerText = subtext;
+        }
+
+        // View Switching Logic
+        function switchView(viewName) {
+            const views = ['timeline', 'responsibilities', 'all'];
+            views.forEach(v => {
+                document.getElementById(`view-${v}`).classList.add('hidden');
+            });
+
+            document.getElementById(`view-${viewName}`).classList.remove('hidden');
+
+            // Reset active button styling
+            const btnBgClasses = ['bg-orange-600', 'text-white', 'shadow-lg', 'shadow-orange-600/30'];
+            const btnInactiveClasses = ['text-slate-400', 'hover:text-white', 'hover:bg-slate-800/60'];
+
+            ['timeline', 'responsibilities', 'all'].forEach(v => {
+                const btn = document.getElementById(`btn-${v}`);
+                if (v === viewName) {
+                    btn.classList.remove(...btnInactiveClasses);
+                    btn.classList.add(...btnBgClasses);
+                } else {
+                    btn.classList.remove(...btnBgClasses);
+                    btn.classList.add(...btnInactiveClasses);
+                }
+            });
+
+            if (viewName === 'all') {
+                renderTasksTable();
+            }
+        }
+
+        // Render All Tasks Table
+        function renderTasksTable() {
             const tbody = document.getElementById('tasksTableBody');
             if (!tbody) return;
-            tbody.innerHTML = '';
-            tasks.forEach(task => {
-                const tr = document.createElement('tr');
-                const isDone = completedTasks.includes(task.id);
-                const taskTitle = currentLang === 'ar' ? task.task : task.taskEn;
-                const phaseTitle = currentLang === 'ar' ? task.phase : task.phaseEn;
-                const dateTitle = currentLang === 'ar' ? task.date : task.dateEn;
-                const entityTitle = currentLang === 'ar' ? task.entity : task.entityEn;
 
-                tr.className = `hover:bg-slate-800/40 transition duration-150 ${isDone ? 'opacity-50 line-through' : ''}`;
+            tbody.innerHTML = '';
+            allTasks.forEach(item => {
+                const isChecked = completedTasks.includes(item.id);
+                const tr = document.createElement('tr');
+                tr.className = `hover:bg-slate-800/40 transition ${isChecked ? 'opacity-50 line-through' : ''}`;
+                
+                const taskName = currentLang === 'ar' ? item.task : item.taskEn;
+                const phaseName = currentLang === 'ar' ? item.phase : item.phaseEn;
+                const dateName = currentLang === 'ar' ? item.date : item.dateEn;
+                const entityName = currentLang === 'ar' ? item.entity : item.entityEn;
+                const statusTxt = isChecked ? (currentLang === 'ar' ? 'مكتملة' : 'Completed') : (currentLang === 'ar' ? 'قيد الانتظار' : 'Pending');
+
                 tr.innerHTML = `
-                    <td class="px-4 py-3 text-slate-200 font-medium">${taskTitle}</td>
-                    <td class="px-4 py-3 font-bold text-orange-400 whitespace-nowrap">${phaseTitle}</td>
-                    <td class="px-4 py-3 text-slate-400 whitespace-nowrap">${dateTitle}</td>
-                    <td class="px-4 py-3"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 border border-slate-700 text-slate-300">${entityTitle}</span></td>
+                    <td class="px-4 py-3 font-semibold text-slate-100">${taskName}</td>
+                    <td class="px-4 py-3 text-slate-400">${phaseName}</td>
+                    <td class="px-4 py-3 text-orange-400 font-medium">${dateName}</td>
+                    <td class="px-4 py-3 text-slate-300">${entityName}</td>
                     <td class="px-4 py-3 no-print">
-                        <button onclick="toggleTask(${task.id})" class="px-2 py-1 rounded text-[11px] font-bold ${isDone ? 'bg-teal-500/20 text-teal-300 border border-teal-500/30' : 'bg-slate-800 text-slate-400 border border-slate-700'}">
-                            ${isDone ? '<i class="fa-solid fa-check mx-1"></i>' + (currentLang === 'ar' ? 'مكتملة' : 'Done') : (currentLang === 'ar' ? 'معلقة' : 'Pending')}
+                        <button onclick="toggleTask(${item.id})" class="px-2.5 py-1 rounded-lg text-[11px] font-bold ${isChecked ? 'bg-teal-500/20 text-teal-300 border border-teal-500/30' : 'bg-slate-800 text-slate-400 border border-slate-700'}">
+                            ${statusTxt}
                         </button>
                     </td>
                 `;
@@ -1243,170 +1259,27 @@
             });
         }
 
-        // Initialize view
-        window.onload = function() {
-            populateTable(allTasks);
-            updateProgress();
-            initInteractiveCanvas();
-        };
-
-        /* Interactive Canvas Particle & Mouse Glow System */
-        function initInteractiveCanvas() {
-            const canvas = document.getElementById('interactive-pixel-canvas');
-            const header = document.getElementById('hero-header');
-            if (!canvas || !header) return;
-
-            const ctx = canvas.getContext('2d');
-            let width = (canvas.width = header.offsetWidth);
-            let height = (canvas.height = header.offsetHeight);
-
-            window.addEventListener('resize', () => {
-                width = canvas.width = header.offsetWidth;
-                height = canvas.height = header.offsetHeight;
+        // Filtering Logic
+        function filterByEntity(entityKey, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.className = 'filter-btn text-xs px-2.5 py-1 rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 transition';
             });
+            btn.className = 'filter-btn text-xs px-2.5 py-1 rounded-lg border border-orange-500/40 bg-orange-500/20 text-orange-300 font-semibold transition';
 
-            // Interactive mouse tracking
-            let mouse = { x: -1000, y: -1000, active: false };
-
-            header.addEventListener('mousemove', (e) => {
-                const rect = header.getBoundingClientRect();
-                mouse.x = e.clientX - rect.left;
-                mouse.y = e.clientY - rect.top;
-                mouse.active = true;
-            });
-
-            header.addEventListener('mouseleave', () => {
-                mouse.active = false;
-            });
-
-            // Additional dynamic interactive pixels
-            const pixelColors = ['#f26522', '#14b8a6', '#38bdf8', '#f59e0b'];
-            const canvasPixels = [];
-            const count = Math.floor((width * height) / 9000); // Reduced density for cleaner look
-
-            for (let i = 0; i < count; i++) {
-                canvasPixels.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    size: Math.random() * 6 + 3,
-                    color: pixelColors[Math.floor(Math.random() * pixelColors.length)],
-                    vx: (Math.random() - 0.5) * 0.8,
-                    vy: (Math.random() - 0.5) * 0.8,
-                    alpha: Math.random() * 0.6 + 0.2
-                });
-            }
-
-            function animateCanvas() {
-                ctx.clearRect(0, 0, width, height);
-
-                // Draw Interactive Hover Glow Grid Pattern around Mouse
-                if (mouse.active) {
-                    const radius = 120;
-                    const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 10, mouse.x, mouse.y, radius);
-                    gradient.addColorStop(0, 'rgba(242, 101, 34, 0.25)');
-                    gradient.addColorStop(0.5, 'rgba(20, 184, 166, 0.12)');
-                    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-                    ctx.fillStyle = gradient;
-                    ctx.beginPath();
-                    ctx.arc(mouse.x, mouse.y, radius, 0, Math.PI * 2);
-                    ctx.fill();
+            const cards = document.querySelectorAll('.card-item');
+            cards.forEach(card => {
+                const cardEntity = card.getAttribute('data-entity');
+                if (entityKey === 'all' || cardEntity.includes(entityKey)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
                 }
-
-                // Render & Update Canvas Particles
-                canvasPixels.forEach(p => {
-                    p.x += p.vx;
-                    p.y += p.vy;
-
-                    // Bounce from edges
-                    if (p.x < 0 || p.x > width) p.vx *= -1;
-                    if (p.y < 0 || p.y > height) p.vy *= -1;
-
-                    // Mouse Interaction - push pixels slightly away or glow
-                    if (mouse.active) {
-                        const dx = mouse.x - p.x;
-                        const dy = mouse.y - p.y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 100) {
-                            ctx.fillStyle = '#ffffff';
-                            ctx.shadowColor = p.color;
-                            ctx.shadowBlur = 12;
-                        } else {
-                            ctx.fillStyle = p.color;
-                            ctx.shadowColor = p.color;
-                            ctx.shadowBlur = 6;
-                        }
-                    } else {
-                        ctx.fillStyle = p.color;
-                        ctx.shadowColor = p.color;
-                        ctx.shadowBlur = 6;
-                    }
-
-                    ctx.globalAlpha = p.alpha;
-                    ctx.fillRect(p.x, p.y, p.size, p.size);
-                    ctx.shadowBlur = 0; // Reset shadow for performance
-                });
-
-                requestAnimationFrame(animateCanvas);
-            }
-
-            animateCanvas();
+            });
         }
 
-        /* ==========================================
-           QUICK TOOLS FUNCTIONS
-        ========================================== */
-
-        // 1. Toast Alert Helper
-        function showToast(msg) {
-            const toast = document.getElementById('toast-message');
-            const toastText = document.getElementById('toast-text');
-            if (!toast || !toastText) return;
-            toastText.innerText = msg;
-            toast.classList.remove('hidden');
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 3000);
-        }
-
-        // 2. View Switcher Function
-        function switchView(viewName) {
-            const viewTimeline = document.getElementById('view-timeline');
-            const viewResponsibilities = document.getElementById('view-responsibilities');
-            const viewAll = document.getElementById('view-all');
-
-            const btnTimeline = document.getElementById('btn-timeline');
-            const btnResponsibilities = document.getElementById('btn-responsibilities');
-            const btnAll = document.getElementById('btn-all');
-
-            // Hide all
-            viewTimeline.classList.add('hidden');
-            viewResponsibilities.classList.add('hidden');
-            viewAll.classList.add('hidden');
-
-            // Reset button styles
-            const inactiveClass = "px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/60";
-            const activeClass = "px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 bg-orange-600 text-white shadow-lg shadow-orange-600/30";
-
-            btnTimeline.className = inactiveClass;
-            btnResponsibilities.className = inactiveClass;
-            btnAll.className = inactiveClass;
-
-            if (viewName === 'timeline') {
-                viewTimeline.classList.remove('hidden');
-                btnTimeline.className = activeClass;
-            } else if (viewName === 'responsibilities') {
-                viewResponsibilities.classList.remove('hidden');
-                btnResponsibilities.className = activeClass;
-            } else if (viewName === 'all') {
-                viewAll.classList.remove('hidden');
-                btnAll.className = activeClass;
-            }
-        }
-
-        // 3. Search Handler
+        // Search Input Handling
         function handleSearch() {
-            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const query = document.getElementById('searchInput').value.toLowerCase();
             const cards = document.querySelectorAll('.card-item');
 
             cards.forEach(card => {
@@ -1417,114 +1290,183 @@
                     card.style.display = 'none';
                 }
             });
-
-            // Filter Table
-            const filteredTasks = allTasks.filter(task => {
-                const title = currentLang === 'ar' ? task.task : task.taskEn;
-                const phase = currentLang === 'ar' ? task.phase : task.phaseEn;
-                const entity = currentLang === 'ar' ? task.entity : task.entityEn;
-                return title.toLowerCase().includes(query) || phase.toLowerCase().includes(query) || entity.toLowerCase().includes(query);
-            });
-            populateTable(filteredTasks);
         }
 
-        // 4. Entity Filter Handler
-        function filterByEntity(entityKey, btn) {
-            document.querySelectorAll('.filter-btn').forEach(b => {
-                b.className = 'filter-btn text-xs px-2.5 py-1 rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 transition';
-            });
-            btn.className = 'filter-btn text-xs px-2.5 py-1 rounded-lg border border-orange-500/40 bg-orange-500/20 text-orange-300 font-semibold transition';
-
-            const cards = document.querySelectorAll('.card-item');
-            cards.forEach(card => {
-                const cardEntity = card.getAttribute('data-entity');
-                if (entityKey === 'all' || cardEntity.includes(entityKey) || entityKey.includes(cardEntity)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            const filteredTasks = entityKey === 'all' 
-                ? allTasks 
-                : allTasks.filter(t => t.entityKey.includes(entityKey) || entityKey.includes(t.entityKey));
-            populateTable(filteredTasks);
-        }
-
-        // 5. Add to Google Calendar
+        // Quick Action: Add to Calendar
         function addToCalendar() {
-            const title = encodeURIComponent(currentLang === 'ar' ? 'مسابقة ريشة رقمية - الخطة التنفيذية 2026/2027' : 'Digital Feather Competition Executive Timeline');
-            const details = encodeURIComponent(currentLang === 'ar' ? 'متابعة مراحل ومواعيد مسابقة ريشة رقمية برعاية المركز الإقليمي لتكنولوجيا المعلومات والاتصال.' : 'Digital Feather Competition timeline and deliverables.');
-            const location = encodeURIComponent('المركز الإقليمي لتكنولوجيا المعلومات والاتصال - مملكة البحرين');
-            const dates = '20261025T080000Z/20270430T140000Z'; // Overall Competition Window
-
-            const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${dates}`;
-            window.open(calendarUrl, '_blank');
+            const title = encodeURIComponent(currentLang === 'ar' ? 'مسابقة ريشة رقمية 2026/2027' : 'Digital Feather Competition 2026/2027');
+            const details = encodeURIComponent(currentLang === 'ar' ? 'الجدول الزمني والمهام التنفيذية لمسابقة ريشة رقمية لمدارس البحرين الحكومية' : 'Timeline and executive plan for the Digital Feather Competition for Bahrain Public Schools');
+            const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=20261025T080000Z/20270430T140000Z`;
+            window.open(url, '_blank');
         }
 
-        // 6. Export to CSV / Excel
+        // Quick Action: Export CSV
         function exportToCSV() {
-            let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // UTF-8 BOM for Arabic support
-            csvContent += (currentLang === 'ar' ? "رقم المهمة,المرحلة,المهمة,الفترة الزمنية,الجهة المسؤولة,الحالة\n" : "Task ID,Phase,Task,Timeline,Responsible Entity,Status\n");
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+            csvContent += "ID,Task,Phase,Date,Entity,Status\n";
 
             allTasks.forEach(t => {
-                const isDone = completedTasks.includes(t.id);
-                const statusStr = isDone ? (currentLang === 'ar' ? 'مكتملة' : 'Completed') : (currentLang === 'ar' ? 'معلقة' : 'Pending');
-                const phase = currentLang === 'ar' ? t.phase : t.phaseEn;
-                const task = currentLang === 'ar' ? t.task : t.taskEn;
-                const date = currentLang === 'ar' ? t.date : t.dateEn;
-                const entity = currentLang === 'ar' ? t.entity : t.entityEn;
-
-                csvContent += `"${t.id}","${phase}","${task}","${date}","${entity}","${statusStr}"\n`;
+                const isChecked = completedTasks.includes(t.id) ? "Completed" : "Pending";
+                csvContent += `"${t.id}","${t.task}","${t.phase}","${t.date}","${t.entity}","${isChecked}"\n`;
             });
 
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `Digital_Feather_Timeline_${currentLang}.csv`);
+            link.setAttribute("download", "Digital_Feather_Timeline_2026_2027.csv");
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
 
-            showToast(currentLang === 'ar' ? 'تم تصدير جدول المهام بنجاح!' : 'Tasks exported successfully!');
+            showToast(currentLang === 'ar' ? 'تم تصدير الجدول بنجاح!' : 'Data exported successfully!');
         }
 
-        // 7. Font Resizing Logic
-        let currentFontScale = 1;
-        function changeFontSize(direction) {
-            if (direction === 1 && currentFontScale < 1.3) {
-                currentFontScale += 0.08;
-            } else if (direction === -1 && currentFontScale > 0.85) {
-                currentFontScale -= 0.08;
-            }
-            document.querySelectorAll('p, h3, h2, span, td, button').forEach(el => {
-                el.style.zoom = currentFontScale;
-            });
+        // Font Zoom Adjustment
+        let currentFontSize = 100;
+        function changeFontSize(delta) {
+            currentFontSize += delta * 5;
+            if (currentFontSize < 85) currentFontSize = 85;
+            if (currentFontSize > 125) currentFontSize = 125;
+            document.body.style.fontSize = `${currentFontSize}%`;
         }
 
-        // 8. Share Calendar Link
+        // Share Calendar Quick Function
         function shareCalendar() {
-            const dummyUrl = window.location.href;
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(dummyUrl).then(() => {
-                    showToast(currentLang === 'ar' ? 'تم نسخ رابط التقويم بنجاح!' : 'Calendar link copied to clipboard!');
-                }).catch(() => {
-                    executeFallbackCopy(dummyUrl);
-                });
+            if (navigator.share) {
+                navigator.share({
+                    title: 'مسابقة ريشة رقمية',
+                    text: 'التقويم الزمني والدليل التنفيذي لمسابقة ريشة رقمية 2026/2027',
+                    url: window.location.href,
+                }).catch(() => {});
             } else {
-                executeFallbackCopy(dummyUrl);
+                navigator.clipboard.writeText(window.location.href);
+                showToast(currentLang === 'ar' ? 'تم نسخ الرابط للحافظة!' : 'Link copied to clipboard!');
             }
         }
 
-        function executeFallbackCopy(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            showToast(currentLang === 'ar' ? 'تم نسخ رابط التقويم بنجاح!' : 'Calendar link copied to clipboard!');
+        // Toast Notification Display Helper
+        function showToast(message) {
+            const toast = document.getElementById('toast-message');
+            document.getElementById('toast-text').innerText = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
         }
+
+        // INTERACTIVE CANVAS PARTICLES & MOUSE GLOW EFFECT
+        const canvas = document.getElementById('interactive-pixel-canvas');
+        const ctx = canvas.getContext('2d');
+        let pixels = [];
+        let mouse = { x: null, y: null, radius: 100 };
+
+        function resizeCanvas() {
+            const header = document.getElementById('hero-header');
+            if (header) {
+                canvas.width = header.offsetWidth;
+                canvas.height = header.offsetHeight;
+            }
+        }
+
+        class InteractivePixel {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 4 + 2;
+                this.baseX = this.x;
+                this.baseY = this.y;
+                this.density = (Math.random() * 20) + 1;
+                this.color = ['#f26522', '#14b8a6', '#38bdf8', '#f59e0b'][Math.floor(Math.random() * 4)];
+                this.opacity = Math.random() * 0.6 + 0.2;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fillRect(this.x, this.y, this.size, this.size);
+                ctx.globalAlpha = 1;
+            }
+
+            update() {
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < mouse.radius) {
+                    let forceDirectionX = dx / distance;
+                    let forceDirectionY = dy / distance;
+                    let maxDistance = mouse.radius;
+                    let force = (maxDistance - distance) / maxDistance;
+                    let directionX = forceDirectionX * force * this.density;
+                    let directionY = forceDirectionY * force * this.density;
+
+                    this.x -= directionX;
+                    this.y -= directionY;
+                } else {
+                    if (this.x !== this.baseX) {
+                        let dx = this.x - this.baseX;
+                        this.x -= dx / 10;
+                    }
+                    if (this.y !== this.baseY) {
+                        let dy = this.y - this.baseY;
+                        this.y -= dy / 10;
+                    }
+                }
+            }
+        }
+
+        function initCanvas() {
+            pixels = [];
+            // Reduced pixel density for a lighter, clean backdrop
+            let numberOfPixels = (canvas.width * canvas.height) / 12000;
+            for (let i = 0; i < numberOfPixels; i++) {
+                pixels.push(new InteractivePixel());
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < pixels.length; i++) {
+                pixels[i].draw();
+                pixels[i].update();
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        // Initialize state on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Restore persistent checkbox states
+            completedTasks.forEach(id => {
+                const card = document.getElementById(`card-task-${id}`);
+                const check = document.getElementById(`check-task-${id}`);
+                if (card) card.classList.add('task-done');
+                if (check) check.checked = true;
+            });
+
+            // Initialize Canvas
+            resizeCanvas();
+            initCanvas();
+            animateCanvas();
+
+            // Initial Language Setup
+            setLanguage('ar');
+        });
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initCanvas();
+        });
     </script>
 </body>
 </html>
