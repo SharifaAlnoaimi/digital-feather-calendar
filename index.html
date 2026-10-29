@@ -296,7 +296,49 @@
                         </p>
                     </div>
 
-                    <!-- Interactive Quick Action Buttons -->
+                    <!-- Important Files Card (ملفات هامة) -->
+                    <div class="glass-panel p-5 rounded-2xl border border-orange-500/20 space-y-3">
+                        <h3 class="text-sm font-bold text-white mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-folder-open text-orange-400"></i> <span id="important-files-txt">ملفات هامة</span>
+                        </h3>
+
+                        <!-- Competition Guide Link -->
+                        <a href="https://moebh-my.sharepoint.com/:b:/g/personal/s_alnoaimi_moe_bh/IQCew8AsaZ1nS4diDB46dSLHAQgckNMEl7jLUthzustYtuU?e=MDfgnm" 
+                           target="_blank" rel="noopener noreferrer" 
+                           id="btn-guide-file" 
+                           class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs flex items-center justify-between border border-slate-700 transition group">
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-file-pdf text-red-400"></i>
+                                <span id="txt-file-guide">دليل المسابقة</span>
+                            </span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-orange-400 transition"></i>
+                        </a>
+
+                        <!-- Competition Announcement Link -->
+                        <a href="https://moebh-my.sharepoint.com/:b:/g/personal/s_alnoaimi_moe_bh/IQCsln-AriA6RqCnVx9M7cRGAYMp1Kac-wXXVFi3Zmosv24?e=gTSp2y" 
+                           target="_blank" rel="noopener noreferrer" 
+                           id="btn-announcement-file" 
+                           class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs flex items-center justify-between border border-slate-700 transition group">
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-bullhorn text-amber-400"></i>
+                                <span id="txt-file-announcement">إعلان المسابقة</span>
+                            </span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-orange-400 transition"></i>
+                        </a>
+
+                        <!-- Nomination Form Link -->
+                        <a href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=ndUbPaHEy020vxQ0e63HTpOoqsmFwddDmDy-bDwvVV5UNUhLNE8yQUpQNUlBRzlVVTlMQVQ2TlhHSy4u&route=shorturl" 
+                           target="_blank" rel="noopener noreferrer" 
+                           id="btn-nomination-file" 
+                           class="w-full py-2.5 px-4 rounded-xl bg-teal-700 hover:bg-teal-600 text-white font-bold text-xs flex items-center justify-between transition shadow-md shadow-teal-900/30 group">
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-pen-to-square text-teal-200"></i>
+                                <span id="txt-file-nomination">استمارة الترشح الأولي</span>
+                            </span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-teal-200 group-hover:text-white transition"></i>
+                        </a>
+                    </div>
+
                     <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-3">
                         <h3 class="text-sm font-bold text-white mb-2 flex items-center gap-2">
                             <i class="fa-solid fa-bolt text-amber-400"></i> <span id="quick-tools-txt">أدوات سريعة</span>
@@ -735,6 +777,10 @@
                 heroDesc: 'الخطة الزمنية الشاملة والمهام المعتمدة للمسابقة، مقسمة بحسب المراحل الرئيسية ومسؤوليات الجهات المشاركة.',
                 progressTitle: 'نسبة الإنجاز التنفيذي',
                 progressSub: 'تم إنجاز {count} من {total} مهمة',
+                importantFilesTitle: 'ملفات هامة',
+                fileGuide: 'دليل المسابقة',
+                fileAnnouncement: 'إعلان المسابقة',
+                fileNomination: 'استمارة الترشح الأولي',
                 toolsTitle: 'أدوات سريعة',
                 btnPrint: '<i class="fa-solid fa-file-pdf"></i> طباعة / حفظ PDF',
                 btnCalendar: '<i class="fa-solid fa-calendar-plus"></i> إضافة لتقويم Google',
@@ -743,6 +789,10 @@
                 btnZoomIn: '<i class="fa-solid fa-plus text-[10px]"></i> تكبير',
                 btnZoomOut: '<i class="fa-solid fa-minus text-[10px]"></i> تصغير',
                 btnShare: '<i class="fa-solid fa-share-nodes text-orange-400"></i> مشاركة التقويم',
+                importantFilesTitle: 'ملفات هامة',
+                fileGuide: 'دليل المسابقة',
+                fileAnnounce: 'إعلان المسابقة',
+                fileForm: 'استمارة الترشح الأولي للمسابقة',
                 supportTitle: 'الدعم والتنسيق:',
                 rcictName: 'المركز الإقليمي لتكنولوجيا المعلومات والاتصال',
                 btnTimeline: '<i class="fa-solid fa-timeline"></i> الجدول الزمني',
@@ -868,6 +918,10 @@
                 heroDesc: 'Comprehensive timeline and approved operational tasks for the competition, organized by main phases and institutional responsibilities.',
                 progressTitle: 'Execution Progress',
                 progressSub: '{count} of {total} tasks completed',
+                importantFilesTitle: 'Important Files',
+                fileGuide: 'Competition Guide',
+                fileAnnouncement: 'Competition Announcement',
+                fileNomination: 'Initial Nomination Form',
                 toolsTitle: 'Quick Tools',
                 btnPrint: '<i class="fa-solid fa-file-pdf"></i> Print / Save PDF',
                 btnCalendar: '<i class="fa-solid fa-calendar-plus"></i> Add to Google Calendar',
@@ -876,6 +930,10 @@
                 btnZoomIn: '<i class="fa-solid fa-plus text-[10px]"></i> Zoom In',
                 btnZoomOut: '<i class="fa-solid fa-minus text-[10px]"></i> Zoom Out',
                 btnShare: '<i class="fa-solid fa-share-nodes text-orange-400"></i> Share Calendar',
+                importantFilesTitle: 'Important Files',
+                fileGuide: 'Competition Guide',
+                fileAnnounce: 'Competition Announcement',
+                fileForm: 'Initial Nomination Form',
                 supportTitle: 'Support & Coordination:',
                 rcictName: 'Regional Centre for Information and Communication Technology',
                 btnTimeline: '<i class="fa-solid fa-timeline"></i> Timeline View',
@@ -1030,6 +1088,10 @@
 
             // Sidebar Controls
             document.getElementById('progress-title-txt').innerText = t.progressTitle;
+            if (document.getElementById('important-files-txt')) document.getElementById('important-files-txt').innerText = t.importantFilesTitle;
+            if (document.getElementById('txt-file-guide')) document.getElementById('txt-file-guide').innerText = t.fileGuide;
+            if (document.getElementById('txt-file-announcement')) document.getElementById('txt-file-announcement').innerText = t.fileAnnouncement;
+            if (document.getElementById('txt-file-nomination')) document.getElementById('txt-file-nomination').innerText = t.fileNomination;
             document.getElementById('quick-tools-txt').innerText = t.toolsTitle;
             document.getElementById('btn-print').innerHTML = t.btnPrint;
             document.getElementById('btn-calendar').innerHTML = t.btnCalendar;
@@ -1038,6 +1100,10 @@
             document.getElementById('btn-zoom-in').innerHTML = t.btnZoomIn;
             document.getElementById('btn-zoom-out').innerHTML = t.btnZoomOut;
             document.getElementById('btn-share').innerHTML = t.btnShare;
+            if(document.getElementById('important-files-txt')) document.getElementById('important-files-txt').innerText = t.importantFilesTitle;
+            if(document.getElementById('file-guide-txt')) document.getElementById('file-guide-txt').innerText = t.fileGuide;
+            if(document.getElementById('file-announce-txt')) document.getElementById('file-announce-txt').innerText = t.fileAnnounce;
+            if(document.getElementById('file-form-txt')) document.getElementById('file-form-txt').innerText = t.fileForm;
             document.getElementById('support-title-txt').innerText = t.supportTitle;
             document.getElementById('support-rcict-name').innerText = t.rcictName;
 
