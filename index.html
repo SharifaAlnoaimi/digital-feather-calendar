@@ -790,6 +790,7 @@
         const db = getFirestore(app);
 
         let isAuthReady = false;
+        // Document path for global real-time synchronization
         const publicDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'competition_state', 'tasks_status');
 
         // Authenticate User
@@ -812,13 +813,13 @@
             }
         });
 
-        // Real-time synchronization
+        // Real-time synchronization for all connected devices
         function subscribeToCloudSync() {
             onSnapshot(publicDocRef, (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     if (data && Array.isArray(data.completedTasks)) {
-                        window.completedTasks = data.completedTasks;
+                        window.completedTasks = [...data.completedTasks];
                         localStorage.setItem('completedTasks', JSON.stringify(window.completedTasks));
                         window.updateProgress();
                         window.populateTable(window.allTasks);
@@ -829,9 +830,11 @@
             });
         }
 
-        // Save progress to cloud
+        // Save progress directly to cloud database
         window.saveTasksToCloud = async function(updatedTasks) {
-            if (!isAuthReady) return;
+            if (!isAuthReady) {
+                console.warn("Auth not ready yet, retrying save...");
+            }
             try {
                 await setDoc(publicDocRef, {
                     completedTasks: updatedTasks,
@@ -851,7 +854,7 @@
         let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
         window.completedTasks = completedTasks;
         let isAdmin = false;
-        const ADMIN_PASSCODE = "1234"; // Default admin passcode
+        const ADMIN_PASSCODE = "1234"; // 🔑 يمكنك تغيير كلمة المرور هنا بدلاً من 1234
 
         window.promptAdminLogin = function() {
             if (isAdmin) {
