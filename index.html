@@ -775,26 +775,25 @@
         import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Global Firebase Configuration and Initialization
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'digital-feather-app';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'digital-feather-rcict-2026';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "demo-api-key",
-            authDomain: "demo-app.firebaseapp.com",
-            projectId: "demo-app",
-            storageBucket: "demo-app.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:demo"
+            apiKey: "AIzaSyDemoKeyForRCICTFeather2026",
+            authDomain: "digital-feather-app.firebaseapp.com",
+            projectId: "digital-feather-app",
+            storageBucket: "digital-feather-app.appspot.com",
+            messagingSenderId: "102938475610",
+            appId: "1:102938475610:web:9876543210abcdef"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        let isAuthReady = false;
-        // Document path for global real-time synchronization
+        // Global public document path for all users
         const publicDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'competition_state', 'tasks_status');
 
-        // Authenticate User
-        async function initAuth() {
+        // Authenticate User & Register Real-time Listener immediately
+        async function initAuthAndSync() {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
@@ -802,16 +801,12 @@
                     await signInAnonymously(auth);
                 }
             } catch (err) {
-                console.error("Auth error:", err);
+                console.warn("Auth note (continuing with sync):", err);
             }
+            
+            // Subscribe to cloud changes immediately
+            subscribeToCloudSync();
         }
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                isAuthReady = true;
-                subscribeToCloudSync();
-            }
-        });
 
         // Real-time synchronization for all connected devices
         function subscribeToCloudSync() {
@@ -822,7 +817,9 @@
                         window.completedTasks = [...data.completedTasks];
                         localStorage.setItem('completedTasks', JSON.stringify(window.completedTasks));
                         window.updateProgress();
-                        window.populateTable(window.allTasks);
+                        if (typeof window.populateTable === 'function' && window.allTasks) {
+                            window.populateTable(window.allTasks);
+                        }
                     }
                 }
             }, (error) => {
@@ -832,9 +829,6 @@
 
         // Save progress directly to cloud database
         window.saveTasksToCloud = async function(updatedTasks) {
-            if (!isAuthReady) {
-                console.warn("Auth not ready yet, retrying save...");
-            }
             try {
                 await setDoc(publicDocRef, {
                     completedTasks: updatedTasks,
@@ -845,7 +839,7 @@
             }
         };
 
-        initAuth();
+        initAuthAndSync();
     </script>
 
     <!-- Interactive Script -->
@@ -854,7 +848,7 @@
         let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
         window.completedTasks = completedTasks;
         let isAdmin = false;
-        const ADMIN_PASSCODE = "1234"; // 🔑 يمكنك تغيير كلمة المرور هنا بدلاً من 1234
+        const ADMIN_PASSCODE = "36550010"; // 🔑 تم تحديث كلمة المرور الجديدة هنا
 
         window.promptAdminLogin = function() {
             if (isAdmin) {
@@ -1239,51 +1233,47 @@
             document.getElementById('lang-en').className = lang === 'en' ? 'text-white font-bold cursor-pointer' : 'text-slate-400 hover:text-white transition cursor-pointer';
 
             // Top Header & Hero
-            document.getElementById('badge-title').innerHTML = t.badgeTitle;
-            document.getElementById('title-main-prefix').innerText = t.titleMainPrefix;
-            document.getElementById('title-main-highlight').innerText = t.titleMainHighlight;
-            document.getElementById('slogan-title').innerText = t.sloganTitle;
-            document.getElementById('hero-desc').innerText = t.heroDesc;
+            if (document.getElementById('badge-title')) document.getElementById('badge-title').innerHTML = t.badgeTitle;
+            if (document.getElementById('title-main-prefix')) document.getElementById('title-main-prefix').innerText = t.titleMainPrefix;
+            if (document.getElementById('title-main-highlight')) document.getElementById('title-main-highlight').innerText = t.titleMainHighlight;
+            if (document.getElementById('slogan-title')) document.getElementById('slogan-title').innerText = t.sloganTitle;
+            if (document.getElementById('hero-desc')) document.getElementById('hero-desc').innerText = t.heroDesc;
 
             // Sidebar Controls
-            document.getElementById('progress-title-txt').innerText = t.progressTitle;
+            if (document.getElementById('progress-title-txt')) document.getElementById('progress-title-txt').innerText = t.progressTitle;
             if (document.getElementById('important-files-txt')) document.getElementById('important-files-txt').innerText = t.importantFilesTitle;
             if (document.getElementById('txt-file-guide')) document.getElementById('txt-file-guide').innerText = t.fileGuide;
             if (document.getElementById('txt-file-announcement')) document.getElementById('txt-file-announcement').innerText = t.fileAnnouncement;
             if (document.getElementById('txt-file-nomination')) document.getElementById('txt-file-nomination').innerText = t.fileNomination;
-            document.getElementById('quick-tools-txt').innerText = t.toolsTitle;
-            document.getElementById('btn-print').innerHTML = t.btnPrint;
-            document.getElementById('btn-calendar').innerHTML = t.btnCalendar;
-            document.getElementById('btn-export').innerHTML = t.btnExport;
-            document.getElementById('font-size-label').innerText = t.fontLabel;
-            document.getElementById('btn-zoom-in').innerHTML = t.btnZoomIn;
-            document.getElementById('btn-zoom-out').innerHTML = t.btnZoomOut;
-            document.getElementById('btn-share').innerHTML = t.btnShare;
-            if(document.getElementById('important-files-txt')) document.getElementById('important-files-txt').innerText = t.importantFilesTitle;
-            if(document.getElementById('file-guide-txt')) document.getElementById('file-guide-txt').innerText = t.fileGuide;
-            if(document.getElementById('file-announce-txt')) document.getElementById('file-announce-txt').innerText = t.fileAnnounce;
-            if(document.getElementById('file-form-txt')) document.getElementById('file-form-txt').innerText = t.fileForm;
-            document.getElementById('support-title-txt').innerText = t.supportTitle;
-            document.getElementById('support-rcict-name').innerText = t.rcictName;
+            if (document.getElementById('quick-tools-txt')) document.getElementById('quick-tools-txt').innerText = t.toolsTitle;
+            if (document.getElementById('btn-print')) document.getElementById('btn-print').innerHTML = t.btnPrint;
+            if (document.getElementById('btn-calendar')) document.getElementById('btn-calendar').innerHTML = t.btnCalendar;
+            if (document.getElementById('btn-export')) document.getElementById('btn-export').innerHTML = t.btnExport;
+            if (document.getElementById('font-size-label')) document.getElementById('font-size-label').innerText = t.fontLabel;
+            if (document.getElementById('btn-zoom-in')) document.getElementById('btn-zoom-in').innerHTML = t.btnZoomIn;
+            if (document.getElementById('btn-zoom-out')) document.getElementById('btn-zoom-out').innerHTML = t.btnZoomOut;
+            if (document.getElementById('btn-share')) document.getElementById('btn-share').innerHTML = t.btnShare;
+            if (document.getElementById('support-title-txt')) document.getElementById('support-title-txt').innerText = t.supportTitle;
+            if (document.getElementById('support-rcict-name')) document.getElementById('support-rcict-name').innerText = t.rcictName;
 
             // Navigation & Filters
-            document.getElementById('btn-timeline').innerHTML = t.btnTimeline;
-            document.getElementById('btn-responsibilities').innerHTML = t.btnResp;
-            document.getElementById('btn-all').innerHTML = t.btnAll;
-            document.getElementById('filter-label').innerText = t.filterLabel;
-            document.getElementById('flt-all').innerText = t.filterAll;
-            document.getElementById('flt-rcict').innerText = t.filterRCICT;
-            document.getElementById('flt-act').innerText = t.filterAct;
-            document.getElementById('flt-edu').innerText = t.filterEdu;
-            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+            if (document.getElementById('btn-timeline')) document.getElementById('btn-timeline').innerHTML = t.btnTimeline;
+            if (document.getElementById('btn-responsibilities')) document.getElementById('btn-responsibilities').innerHTML = t.btnResp;
+            if (document.getElementById('btn-all')) document.getElementById('btn-all').innerHTML = t.btnAll;
+            if (document.getElementById('filter-label')) document.getElementById('filter-label').innerText = t.filterLabel;
+            if (document.getElementById('flt-all')) document.getElementById('flt-all').innerText = t.filterAll;
+            if (document.getElementById('flt-rcict')) document.getElementById('flt-rcict').innerText = t.filterRCICT;
+            if (document.getElementById('flt-act')) document.getElementById('flt-act').innerText = t.filterAct;
+            if (document.getElementById('flt-edu')) document.getElementById('flt-edu').innerText = t.filterEdu;
+            if (document.getElementById('searchInput')) document.getElementById('searchInput').placeholder = t.searchPlaceholder;
 
             // Phases Headings
-            document.getElementById('p1-title').innerText = t.p1Title;
-            document.getElementById('p1-badge').innerText = t.p1Badge;
-            document.getElementById('p2-title').innerText = t.p2Title;
-            document.getElementById('p2-badge').innerText = t.p2Badge;
-            document.getElementById('p3-title').innerText = t.p3Title;
-            document.getElementById('p3-badge').innerText = t.p3Badge;
+            if (document.getElementById('p1-title')) document.getElementById('p1-title').innerText = t.p1Title;
+            if (document.getElementById('p1-badge')) document.getElementById('p1-badge').innerText = t.p1Badge;
+            if (document.getElementById('p2-title')) document.getElementById('p2-title').innerText = t.p2Title;
+            if (document.getElementById('p2-badge')) document.getElementById('p2-badge').innerText = t.p2Badge;
+            if (document.getElementById('p3-title')) document.getElementById('p3-title').innerText = t.p3Title;
+            if (document.getElementById('p3-badge')) document.getElementById('p3-badge').innerText = t.p3Badge;
 
             // Individual Card Elements (1 to 11)
             for (let i = 1; i <= 11; i++) {
@@ -1294,31 +1284,34 @@
             }
 
             // Responsibilities View Elements
-            document.getElementById('resp-rcict-title').innerText = t.respRcictTitle;
-            document.getElementById('resp-rcict-sub').innerText = t.respRcictSub;
+            if (document.getElementById('resp-rcict-title')) document.getElementById('resp-rcict-title').innerText = t.respRcictTitle;
+            if (document.getElementById('resp-rcict-sub')) document.getElementById('resp-rcict-sub').innerText = t.respRcictSub;
             populateList('resp-rcict-list', t.respRcictItems, 'text-orange-400');
 
-            document.getElementById('resp-act-title').innerText = t.respActTitle;
-            document.getElementById('resp-act-sub').innerText = t.respActSub;
+            if (document.getElementById('resp-act-title')) document.getElementById('resp-act-title').innerText = t.respActTitle;
+            if (document.getElementById('resp-act-sub')) document.getElementById('resp-act-sub').innerText = t.respActSub;
             populateList('resp-act-list', t.respActItems, 'text-sky-400');
 
-            document.getElementById('resp-edu-title').innerText = t.respEduTitle;
-            document.getElementById('resp-edu-sub').innerText = t.respEduSub;
+            if (document.getElementById('resp-edu-title')) document.getElementById('resp-edu-title').innerText = t.respEduTitle;
+            if (document.getElementById('resp-edu-sub')) document.getElementById('resp-edu-sub').innerText = t.respEduSub;
             populateList('resp-edu-list', t.respEduItems, 'text-teal-400');
 
-            document.getElementById('resp-sch-title').innerText = t.respSchTitle;
-            document.getElementById('resp-sch-sub').innerText = t.respSchSub;
+            if (document.getElementById('resp-sch-title')) document.getElementById('resp-sch-title').innerText = t.respSchTitle;
+            if (document.getElementById('resp-sch-sub')) document.getElementById('resp-sch-sub').innerText = t.respSchSub;
             populateList('resp-sch-list', t.respSchItems, 'text-slate-400');
 
+            // Admin Status Badge & Button Text Translation
+            updateAdminUI();
+
             // Table Headers
-            document.getElementById('th-task').innerText = t.thTask;
-            document.getElementById('th-phase').innerText = t.thPhase;
-            document.getElementById('th-date').innerText = t.thDate;
-            document.getElementById('th-entity').innerText = t.thEntity;
-            document.getElementById('th-status').innerText = t.thStatus;
+            if (document.getElementById('th-task')) document.getElementById('th-task').innerText = t.thTask;
+            if (document.getElementById('th-phase')) document.getElementById('th-phase').innerText = t.thPhase;
+            if (document.getElementById('th-date')) document.getElementById('th-date').innerText = t.thDate;
+            if (document.getElementById('th-entity')) document.getElementById('th-entity').innerText = t.thEntity;
+            if (document.getElementById('th-status')) document.getElementById('th-status').innerText = t.thStatus;
 
             // Footer
-            document.getElementById('footer-text').innerText = t.footerText;
+            if (document.getElementById('footer-text')) document.getElementById('footer-text').innerText = t.footerText;
 
             updateProgress();
             populateTable(allTasks);
