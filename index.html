@@ -792,7 +792,30 @@
         // Strict Path for Firestore Rule 1 compliance
         const publicDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'competition_state', 'tasks_status');
 
-        // Authenticate & Register Listener
+        // Fetch & Sync Logic
+        async function fetchAndApplyData() {
+            try {
+                const docSnap = await getDoc(publicDocRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if (data && Array.isArray(data.completedTasks)) {
+                        // Update only if data changed
+                        if (JSON.stringify(window.completedTasks) !== JSON.stringify(data.completedTasks)) {
+                            window.completedTasks = [...data.completedTasks];
+                            localStorage.setItem('completedTasks', JSON.stringify(window.completedTasks));
+                            if (window.updateProgress) window.updateProgress();
+                            if (typeof window.populateTable === 'function' && window.allTasks) {
+                                window.populateTable(window.allTasks);
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
+                console.warn("Polling error:", err);
+            }
+        }
+
+        // Authenticate & Register Real-time + Backup Polling
         async function initAuthAndSync() {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -804,25 +827,31 @@
                 console.warn("Auth note:", err);
             }
 
-            // Real-time listener for all viewers
+            // 1. Initial Fetch
+            await fetchAndApplyData();
+
+            // 2. Real-time Listener (WebSockets)
             onSnapshot(publicDocRef, (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     if (data && Array.isArray(data.completedTasks)) {
                         window.completedTasks = [...data.completedTasks];
                         localStorage.setItem('completedTasks', JSON.stringify(window.completedTasks));
-                        window.updateProgress();
+                        if (window.updateProgress) window.updateProgress();
                         if (typeof window.populateTable === 'function' && window.allTasks) {
                             window.populateTable(window.allTasks);
                         }
                     }
                 }
             }, (error) => {
-                console.error("Cloud sync snapshot error:", error);
+                console.warn("Realtime listener standard note:", error);
             });
+
+            // 3. Backup Continuous Fast Polling Sync (Ensures sync for all clients every 2 seconds)
+            setInterval(fetchAndApplyData, 2000);
         }
 
-        // Global save function with fallback
+        // Global save function
         window.saveTasksToCloud = async function(updatedTasks) {
             try {
                 await setDoc(publicDocRef, {
@@ -830,10 +859,13 @@
                     lastUpdated: new Date().toISOString()
                 }, { merge: true });
                 if (window.showToast) {
-                    window.showToast(window.currentLang === 'ar' ? 'تم تحديث الإنجاز سحابياً للجميع!' : 'Progress updated live for all viewers!');
+                    window.showToast(window.currentLang === 'ar' ? 'تم حفظ وتحديث الإنجاز سحابياً للجميع!' : 'Progress saved live for all viewers!');
                 }
             } catch (err) {
                 console.error("Error saving to cloud:", err);
+                if (window.showToast) {
+                    window.showToast(window.currentLang === 'ar' ? 'حدث خطأ في الاتصال بالسحاب' : 'Cloud sync error');
+                }
             }
         };
 
