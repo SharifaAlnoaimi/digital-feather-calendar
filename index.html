@@ -758,8 +758,9 @@
                 <i class="fa-solid fa-user-shield"></i>
             </div>
             <h3 class="text-lg font-bold text-white">تسجيل دخول المسؤول (Admin)</h3>
-            <p class="text-xs text-slate-400">أدخل كلمة المرور لتفعيل صلاحية تعديل وتحديث نسبة الإنجاز للجميع.</p>
-            <input type="password" id="admin-pass-input" placeholder="كلمة المرور..." onkeydown="if(event.key==='Enter') verifyAdminPass()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-center text-white focus:outline-none focus:border-orange-500">
+            <p class="text-xs text-slate-400">أدخل البريد الإلكتروني وكلمة المرور لتفعيل صلاحية تعديل وتحديث نسبة الإنجاز للجميع.</p>
+            <input type="email" id="admin-email-input" autocomplete="username" dir="ltr" placeholder="البريد الإلكتروني..." onkeydown="if(event.key==='Enter') document.getElementById('admin-pass-input').focus()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-center text-white focus:outline-none focus:border-orange-500">
+            <input type="password" id="admin-pass-input" autocomplete="current-password" placeholder="كلمة المرور..." onkeydown="if(event.key==='Enter') verifyAdminPass()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-center text-white focus:outline-none focus:border-orange-500">
             <p id="admin-error-msg" class="text-xs text-red-400 hidden">كلمة المرور غير صحيحة!</p>
             <div class="flex gap-2 pt-2">
                 <button onclick="verifyAdminPass()" class="flex-1 py-2 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl text-xs transition">تأكيد</button>
@@ -771,87 +772,60 @@
     <!-- Firebase Cloud Database Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global Firebase Configuration and Initialization
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'digital-feather-rcict-2026';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "AIzaSyDemoKeyForRCICTFeather2026",
-            authDomain: "digital-feather-app.firebaseapp.com",
-            projectId: "digital-feather-app",
-            storageBucket: "digital-feather-app.appspot.com",
-            messagingSenderId: "102938475610",
-            appId: "1:102938475610:web:9876543210abcdef"
+        // Firebase web config (safe to be public: security is enforced by Firestore Rules)
+        const appId = 'digital-feather-rcict-2026';
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXua0uw1sJD1xAT_BqKHxL3ILzKHce0nw",
+            authDomain: "digital-feather.firebaseapp.com",
+            projectId: "digital-feather",
+            storageBucket: "digital-feather.firebasestorage.app",
+            messagingSenderId: "958095792465",
+            appId: "1:958095792465:web:21fa9e3fc9a1ab1c2a5b70"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Strict Path for Firestore Rule 1 compliance
         const publicDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'competition_state', 'tasks_status');
 
-        // Fetch & Sync Logic
-        async function fetchAndApplyData() {
-            try {
-                const docSnap = await getDoc(publicDocRef);
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    if (data && Array.isArray(data.completedTasks)) {
-                        // Update only if data changed
-                        if (JSON.stringify(window.completedTasks) !== JSON.stringify(data.completedTasks)) {
-                            window.completedTasks = [...data.completedTasks];
-                            localStorage.setItem('completedTasks', JSON.stringify(window.completedTasks));
-                            if (window.updateProgress) window.updateProgress();
-                            if (typeof window.populateTable === 'function' && window.allTasks) {
-                                window.populateTable(window.allTasks);
-                            }
-                        }
-                    }
+        const msg = (ar, en) => {
+            const l = (typeof window.getCurrentLang === 'function') ? window.getCurrentLang() : 'ar';
+            return l === 'ar' ? ar : en;
+        };
+
+        // 1) Live sync for everyone (viewers need no login: read is public in the Rules).
+        //    onSnapshot keeps a WebSocket open, so every device updates the moment the admin saves.
+        onSnapshot(publicDocRef, (docSnap) => {
+            if (!docSnap.exists()) return;
+            const data = docSnap.data();
+            if (data && Array.isArray(data.completedTasks)) {
+                window.completedTasks = [...data.completedTasks];
+                try { localStorage.setItem('completedTasks', JSON.stringify(window.completedTasks)); } catch (e) {}
+                if (window.updateProgress) window.updateProgress();
+                if (typeof window.populateTable === 'function' && window.allTasks) {
+                    window.populateTable(window.allTasks);
                 }
-            } catch (err) {
-                console.warn("Polling error:", err);
             }
-        }
+        }, (error) => {
+            console.warn("Realtime listener error:", error);
+        });
 
-        // Authenticate & Register Real-time + Backup Polling
-        async function initAuthAndSync() {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (err) {
-                console.warn("Auth note:", err);
-            }
+        // 2) Admin authentication (Firebase Authentication, email + password)
+        onAuthStateChanged(auth, (user) => {
+            if (typeof window.setAdminState === 'function') window.setAdminState(!!user);
+        });
+        window.adminSignIn = async function(email, password) {
+            await signInWithEmailAndPassword(auth, email, password);
+        };
+        window.adminSignOut = async function() {
+            await signOut(auth);
+        };
 
-            // 1. Initial Fetch
-            await fetchAndApplyData();
-
-            // 2. Real-time Listener (WebSockets)
-            onSnapshot(publicDocRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    if (data && Array.isArray(data.completedTasks)) {
-                        window.completedTasks = [...data.completedTasks];
-                        localStorage.setItem('completedTasks', JSON.stringify(window.completedTasks));
-                        if (window.updateProgress) window.updateProgress();
-                        if (typeof window.populateTable === 'function' && window.allTasks) {
-                            window.populateTable(window.allTasks);
-                        }
-                    }
-                }
-            }, (error) => {
-                console.warn("Realtime listener standard note:", error);
-            });
-
-            // 3. Backup Continuous Fast Polling Sync (Ensures sync for all clients every 2 seconds)
-            setInterval(fetchAndApplyData, 2000);
-        }
-
-        // Global save function
+        // 3) Save progress to the cloud (only the admin account is allowed by the Rules)
         window.saveTasksToCloud = async function(updatedTasks) {
             try {
                 await setDoc(publicDocRef, {
@@ -859,17 +833,19 @@
                     lastUpdated: new Date().toISOString()
                 }, { merge: true });
                 if (window.showToast) {
-                    window.showToast(window.currentLang === 'ar' ? 'تم حفظ وتحديث الإنجاز سحابياً للجميع!' : 'Progress saved live for all viewers!');
+                    window.showToast(msg('تم حفظ وتحديث الإنجاز سحابياً للجميع!', 'Progress saved live for all viewers!'));
                 }
             } catch (err) {
                 console.error("Error saving to cloud:", err);
                 if (window.showToast) {
-                    window.showToast(window.currentLang === 'ar' ? 'حدث خطأ في الاتصال بالسحاب' : 'Cloud sync error');
+                    if (err && err.code === 'permission-denied') {
+                        window.showToast(msg('لا تملك صلاحية الحفظ، سجّل الدخول بحساب المسؤول', 'No permission to save. Sign in with the admin account'));
+                    } else {
+                        window.showToast(msg('حدث خطأ في الاتصال بالسحابة', 'Cloud sync error'));
+                    }
                 }
             }
         };
-
-        initAuthAndSync();
     </script>
 
     <!-- Interactive Script -->
@@ -878,34 +854,58 @@
         let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
         window.completedTasks = completedTasks;
         let isAdmin = false;
-        const ADMIN_PASSCODE = "36550010"; // 🔑 كلمة المرور الخاصة بالمسؤول
 
-        window.promptAdminLogin = function() {
+        // Used by the Firebase module script (toasts in the current language)
+        window.getCurrentLang = function() { return currentLang; };
+
+        // Called by Firebase Authentication whenever the login state changes
+        window.setAdminState = function(flag) {
+            isAdmin = !!flag;
+            updateAdminUI();
+        };
+
+        window.promptAdminLogin = async function() {
             if (isAdmin) {
-                isAdmin = false;
+                try { await window.adminSignOut(); } catch (e) { console.warn(e); }
                 showToast(currentLang === 'ar' ? 'تم الخروج من وضع المسؤول' : 'Logged out of admin mode');
-                updateAdminUI();
                 return;
             }
             document.getElementById('admin-modal').classList.remove('hidden');
             document.getElementById('admin-pass-input').value = '';
             document.getElementById('admin-error-msg').classList.add('hidden');
-            document.getElementById('admin-pass-input').focus();
+            document.getElementById('admin-email-input').focus();
         };
 
         window.closeAdminModal = function() {
             document.getElementById('admin-modal').classList.add('hidden');
         };
 
-        window.verifyAdminPass = function() {
-            const input = document.getElementById('admin-pass-input').value;
-            if (input === ADMIN_PASSCODE) {
-                isAdmin = true;
+        window.verifyAdminPass = async function() {
+            const email = document.getElementById('admin-email-input').value.trim();
+            const pass = document.getElementById('admin-pass-input').value;
+            const errEl = document.getElementById('admin-error-msg');
+            errEl.classList.add('hidden');
+
+            if (!email || !pass) {
+                errEl.innerText = 'أدخل البريد الإلكتروني وكلمة المرور';
+                errEl.classList.remove('hidden');
+                return;
+            }
+            if (typeof window.adminSignIn !== 'function') {
+                errEl.innerText = 'خدمة الدخول غير جاهزة بعد، أعد المحاولة بعد لحظات';
+                errEl.classList.remove('hidden');
+                return;
+            }
+            try {
+                await window.adminSignIn(email, pass);
+                document.getElementById('admin-pass-input').value = '';
                 closeAdminModal();
                 showToast(currentLang === 'ar' ? 'تم دخول المسؤول بنجاح!' : 'Admin access granted!');
-                updateAdminUI();
-            } else {
-                document.getElementById('admin-error-msg').classList.remove('hidden');
+            } catch (err) {
+                errEl.innerText = (err && err.code === 'auth/too-many-requests')
+                    ? 'محاولات كثيرة، انتظر قليلاً ثم أعد المحاولة'
+                    : 'البريد الإلكتروني أو كلمة المرور غير صحيحة!';
+                errEl.classList.remove('hidden');
             }
         };
 
@@ -1672,7 +1672,7 @@
             csvContent += (currentLang === 'ar' ? "رقم المهمة,المرحلة,المهمة,الفترة الزمنية,الجهة المسؤولة,الحالة\n" : "Task ID,Phase,Task,Timeline,Responsible Entity,Status\n");
 
             allTasks.forEach(t => {
-                const isDone = completedTasks.includes(t.id);
+                const isDone = window.completedTasks.includes(t.id);
                 const statusStr = isDone ? (currentLang === 'ar' ? 'مكتملة' : 'Completed') : (currentLang === 'ar' ? 'معلقة' : 'Pending');
                 const phase = currentLang === 'ar' ? t.phase : t.phaseEn;
                 const task = currentLang === 'ar' ? t.task : t.taskEn;
